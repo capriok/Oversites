@@ -1,15 +1,16 @@
 {
   "name": "faultable",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
   "scripts": {
     "start": "react-scripts start",
+    "server": "cd.. && cd Fault-Server && npm run dev:watch",
+    "dev": "concurrently \"npm start\" \"npm run server\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@react-google-maps/api": "^2.1.0",
+    "@react-google-maps/api": "^2.1.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@types/react": "^17.0.0",
+    "concurrently": "^5.3.0",
     "include-media": "^1.4.9",
     "node-sass": "^4.14.1",
     "typescript": "^4.1.3"
