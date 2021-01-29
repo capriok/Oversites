@@ -3,14 +3,13 @@
   "version": "1.0.0",
   "scripts": {
     "start": "react-scripts start",
-    "server": "cd.. && cd Fault-Server && npm run dev:watch",
+    "server": "cd.. && cd OS-Server && npm run dev:watch",
     "dev": "concurrently \"npm start\" \"npm run server\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@react-google-maps/api": "^2.1.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
