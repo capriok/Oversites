@@ -1,0 +1,14 @@
+@import "styles/root/index.scss";
+
+.navbar {
+	@include flex;
+	justify-content: space-between;
+	.links {
+		@include flex;
+		justify-content: flex-end;
+		flex: 1;
+		div {
+			margin-left: 20px;
+		}
+	}
+}

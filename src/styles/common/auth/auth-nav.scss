@@ -1,0 +1,34 @@
+@import "styles/root/index.scss";
+
+.credentials {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+}
+
+.auth-nav {
+	@include flex;
+	justify-content: space-between;
+	width: 100%;
+	padding: 10px 20px;
+	.go-back,
+	.attract,
+	.links > span {
+		font-size: 1rem;
+	}
+	.links > span {
+		cursor: default;
+	}
+	.go-back {
+		span {
+			font-size: 1.3rem;
+		}
+	}
+	.attract {
+		padding: 12px 15px;
+		border: 2px solid $plight;
+		border-radius: 7px;
+	}
+}

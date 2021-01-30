@@ -1,0 +1,71 @@
+@import "styles/root/index.scss";
+
+.auth-form {
+	position: relative;
+	@include flex;
+	height: 100%;
+	width: 100%;
+	padding-bottom: 25%;
+	text-align: left;
+	.form-title {
+		position: absolute;
+		top: 0px;
+	}
+	.form-cont {
+		@include flex;
+		flex-direction: column;
+		max-width: 350px;
+		min-width: 350px;
+		padding: 20px;
+		.image-cont {
+			@include flex;
+			width: 100%;
+			padding-bottom: 100px;
+			.logo {
+				width: 100%;
+				max-width: 175px;
+			}
+		}
+		.fields {
+			width: 100%;
+			.username,
+			.password {
+				@include flex;
+				flex-direction: column;
+			}
+			.username {
+				border-top: 2px solid $plight;
+			}
+			.password {
+				position: relative;
+				border-top: 2px solid $plight;
+				div {
+					@include flex;
+					width: 100%;
+					span {
+						font-size: 1rem;
+						cursor: pointer;
+						user-select: none;
+						transform: translate(0, -50%);
+						position: absolute;
+						right: 10px;
+						margin: 0;
+						padding: 0 3px;
+					}
+				}
+			}
+			label {
+				padding: 15px 0 5px;
+				align-self: flex-start;
+			}
+			input {
+				width: 100%;
+				margin-bottom: 20px;
+				border: none;
+			}
+			button {
+				width: 100%;
+			}
+		}
+	}
+}
