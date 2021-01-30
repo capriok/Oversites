@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES6",
     "lib": [
       "dom",
       "dom.iterable",
@@ -10,6 +10,7 @@
     "noEmit": true,
     "strict": true,
     "allowJs": true,
+    "baseUrl": "src",
     "module": "esnext",
     "skipLibCheck": true,
     "noImplicitAny": false,
