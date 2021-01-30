@@ -23,6 +23,7 @@ db
 /build
 
 # misc
+.eslintcache
 .DS_Store
 
 # npm / yarn
