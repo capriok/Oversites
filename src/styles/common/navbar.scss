@@ -3,11 +3,17 @@
 .navbar {
 	@include flex;
 	justify-content: space-between;
+	user-select: none;
 	.links {
 		@include flex;
 		justify-content: flex-end;
 		flex: 1;
-		div {
+		height: 100%;
+		header {
+			cursor: pointer;
+		}
+		section {
+			@include flex;
 			margin-left: 20px;
 		}
 	}

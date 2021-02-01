@@ -13,11 +13,15 @@ interface ContextProps {
 }
 
 interface User {
-	isAuthenticated: boolean
 	uid: number | null
 	username: string
-	token: string
 	join_date: string
+	au: UserAu
+}
+
+interface UserAu {
+	isAuth: boolean
+	token: string
 }
 
 interface BufferObject {

@@ -15,20 +15,20 @@
 	padding: 10px 20px;
 	.go-back,
 	.attract,
-	.links > span {
-		font-size: 1rem;
-	}
-	.links > span {
+	section > span {
 		cursor: default;
 	}
-	.go-back {
-		span {
-			font-size: 1.3rem;
-		}
-	}
 	.attract {
-		padding: 12px 15px;
-		border: 2px solid $plight;
+		font-weight: 600;
+		cursor: pointer;
+		padding: 10px 15px;
+		margin-left: 20px;
+		border: 2px solid $primary;
 		border-radius: 7px;
+	}
+	.go-back {
+		font-weight: 600;
+		cursor: pointer;
+		margin: 20px 10px 20px 0;
 	}
 }

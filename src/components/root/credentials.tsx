@@ -1,22 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { useGlobalValue } from 'state/state'
 
-import AuthForm from './auth-form'
-import AuthNav from './auth-nav'
+import AuthForm from '../auth/auth-form'
+import AuthNav from '../auth/auth-nav'
 
 interface Props {
 	props: RouteComponentProps
 }
 
 const Credentials: React.FC<Props> = ({ props }) => {
-	const [{ user }] = useGlobalValue()
-	if (user.isAuthenticated) window.location.href = '/'
+	const [{ user: { au: { isAuth } } }] = useGlobalValue()
+
+	useEffect(() => {
+		if (isAuth) props.history.push('/')
+	}, [isAuth])
 
 	return (
 		<>
 			<div className="credentials">
-				<AuthNav className="auth-nav" props={props} />
+				<AuthNav props={props} />
 				<AuthForm props={props} />
 			</div>
 		</>

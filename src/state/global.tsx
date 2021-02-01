@@ -1,25 +1,39 @@
 export const globalState: GlobalState = {
 	user: {
-		isAuthenticated: false,
 		uid: null,
 		username: '',
-		token: '',
-		join_date: ''
+		join_date: '',
+		au: {
+			isAuth: false,
+			token: ''
+		}
 	}
-}
+};
 
-const lsToken = localStorage.getItem('OS-UserToken')
+// globalState.user.au.isAuth = true;
+(async () => {
 
-if (lsToken) {
-	let url = new URL(process.env.REACT_APP_ENDPOINT + '/token-verify:')
-	url.search = `token=${lsToken}`;
-	(async () => {
-		const res = await fetch(url.toString())
-		const { data: decode } = await res.json()
-		globalState.user.isAuthenticated = true
-		globalState.user.uid = decode.uid
-		globalState.user.username = decode.username
-		globalState.user.token = decode.token
-		globalState.user.join_date = decode.join_date
-	})()
-}
+	const res = await fetch(
+		process.env.REACT_APP_ENDPOINT + '/u-token',
+		{ credentials: 'include' }
+	)
+	const { status, message, data: decode } = await res.json()
+
+	if (status === 200) {
+		const { uid, username, join_date } = decode.user
+		console.log({ User: decode })
+
+		return globalState.user = {
+			uid: uid,
+			username: username,
+			join_date: join_date,
+			au: {
+				isAuth: true,
+				token: decode.accessToken
+			}
+		}
+	} else {
+		console.log({ User: message })
+		return globalState.user.au.isAuth = false
+	}
+})()
