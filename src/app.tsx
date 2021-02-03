@@ -7,8 +7,9 @@ import Compose from 'components/root/compose'
 import Browse from 'components/root/browse'
 import Credentials from 'components/root/credentials'
 
-import LOGO_PRIMARY from 'assets/logo_primary.png'
 import { useGlobalValue } from 'state/state'
+import Landing from 'components/root/landing'
+import Footer from 'components/root/footer'
 
 const App: React.FC = () => {
   const [{ user: { au: { isAuth } } }] = useGlobalValue()
@@ -33,9 +34,7 @@ const App: React.FC = () => {
         <Route exact path='/' render={() => (
           <>
             {!isAuth && <HomeNav />}
-            <div className="temp">
-              <img src={LOGO_PRIMARY} alt="" style={{ width: '500px' }} />
-            </div>
+            <Landing />
           </>
         )} />
         <Route path='/login' render={props => (
@@ -54,6 +53,7 @@ const App: React.FC = () => {
           </>
         )} />
       </Layout>
+      <Footer />
     </Router>
   );
 }
