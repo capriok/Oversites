@@ -11,6 +11,7 @@ interface Props {
 
 const AuthNav: React.FC<Props> = ({ props }) => {
 	const registering = props.location.pathname === '/login/register'
+
 	return (
 		<Nav className="auth-nav">
 			<header>
