@@ -1,6 +1,6 @@
 export function globalReducer(state: GlobalState, action: Partial<ReducerAction>) {
 	switch (action.type) {
-		case "AUTH":
+		case "USER_AUTH":
 			return {
 				...state,
 				user: action.payload

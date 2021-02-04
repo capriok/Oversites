@@ -1,13 +1,16 @@
 import React from 'react'
-import "styles/root/layout.scss"
+import Footer from 'components/root/footer'
 
 interface Props {
 	children: React.ReactNode
 }
 
 const MainLayout: React.FC<Props> = ({ children }) => (
-	<div className="layout">
-		{children}
+	<div className="app">
+		<div className="layout">
+			{children}
+		</div>
+		<Footer />
 	</div>
 )
 

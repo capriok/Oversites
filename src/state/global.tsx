@@ -8,13 +8,23 @@ export const globalState: GlobalState = {
 			token: ''
 		}
 	}
-};
+}
 
-// globalState.user.au.isAuth = true;
-(async () => {
+const hasLSAuth = localStorage.getItem('OS_USERAUTH');
+if (hasLSAuth) {
+	globalState.user.au.isAuth = true
+	const { isAuth } = JSON.parse(hasLSAuth)
+	if (isAuth) {
+		verifyToken()
+	} else {
+		globalState.user.au.isAuth = false;
+	}
+}
 
+
+async function verifyToken() {
 	const res = await fetch(
-		process.env.REACT_APP_ENDPOINT + '/u-token',
+		process.env.REACT_APP_ENDPOINT + '/user-auth',
 		{ credentials: 'include' }
 	)
 	const { status, message, data: decode } = await res.json()
@@ -24,9 +34,9 @@ export const globalState: GlobalState = {
 		console.log({ User: decode })
 
 		return globalState.user = {
-			uid: uid,
-			username: username,
-			join_date: join_date,
+			uid,
+			username,
+			join_date,
 			au: {
 				isAuth: true,
 				token: decode.accessToken
@@ -36,4 +46,4 @@ export const globalState: GlobalState = {
 		console.log({ User: message })
 		return globalState.user.au.isAuth = false
 	}
-})()
+}

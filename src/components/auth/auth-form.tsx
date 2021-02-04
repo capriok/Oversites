@@ -29,7 +29,7 @@ const AuthForm: React.FC<Props> = ({ props }) => {
 	const noSubPath = subpath === undefined || subpath.length <= 0
 
 	const validSubPath = path.split('/')[2] === 'register'
-	if (!noSubPath && !validSubPath) window.location.href = '/login/'
+	if (!noSubPath && !validSubPath) window.location.href = '/login'
 
 	const isReg = path === '/login/register'
 
@@ -98,8 +98,9 @@ const AuthForm: React.FC<Props> = ({ props }) => {
 					const hideDelay = setTimeout(() => {
 						authLogo.classList.add('logo-hide')
 						clearTimeout(hideDelay)
+						localStorage.setItem('OS_USERAUTH', JSON.stringify({ isAuth: true }))
 						dispatch({
-							type: 'AUTH',
+							type: 'USER_AUTH',
 							payload: {
 								...user,
 								au: {
@@ -229,10 +230,10 @@ const AuthForm: React.FC<Props> = ({ props }) => {
 				isReg ? authNew() : authLog()
 			}}>
 			<h1 className="form-title">{form.title}</h1>
+			<div className="image-cont">
+				<img draggable={false} id="authLogo" src={LOGO_BLACK} alt="" className="logo" />
+			</div>
 			<div className="form-cont">
-				<div className="image-cont">
-					<img draggable={false} id="authLogo" src={LOGO_BLACK} alt="" className="logo" />
-				</div>
 				<div className="fields">
 					<div className="username">
 						<p>Username</p>

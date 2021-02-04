@@ -1,16 +1,19 @@
 import React from 'react'
 import { useGlobalValue } from 'state/state'
-import { Link } from 'react-router-dom'
+import { Link, RouteComponentProps } from 'react-router-dom'
 import Nav from '../common/navbar'
 
 import 'styles/common/home-nav.scss'
 
 interface Props {
-
+	props: RouteComponentProps
 }
 
-const HomeNav: React.FC<Props> = () => {
+const HomeNav: React.FC<Props> = ({ props }) => {
 	const [{ user: { au: { isAuth } } }] = useGlobalValue()
+
+	const path = props.location.pathname.split('/').splice(1)
+	if (path[0] === 'login' || path[1] === 'register') return <></>
 
 	return (
 		<Nav className="home-nav">
@@ -23,8 +26,6 @@ const HomeNav: React.FC<Props> = () => {
 					</>
 					: <section><Link to="/login">Login</Link></section>
 				}
-
-
 			</div>
 		</Nav>
 	)

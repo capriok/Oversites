@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { useGlobalValue } from 'state/state'
 
 import Layout from 'components/root/layout'
 import HomeNav from 'components/root/home-nav'
+import Landing from 'components/root/landing'
+
+import "styles/root/app.scss"
+
 import Compose from 'components/root/compose'
 import Browse from 'components/root/browse'
 import Credentials from 'components/root/credentials'
 
-import { useGlobalValue } from 'state/state'
-import Landing from 'components/root/landing'
-import Footer from 'components/root/footer'
 
 const App: React.FC = () => {
   const [{ user: { au: { isAuth } } }] = useGlobalValue()
@@ -30,30 +32,22 @@ const App: React.FC = () => {
   return (
     <Router>
       <Layout>
-        {isAuth && <HomeNav />}
-        <Route exact path='/' render={() => (
-          <>
-            {!isAuth && <HomeNav />}
-            <Landing />
-          </>
+        <Route path='/' render={(props) => (
+          <HomeNav props={props} />
         )} />
-        <Route path='/login' render={props => (
-          <>
-            <Credentials props={props} />
-          </>
+        <Route exact path='/' render={() => (
+          <Landing />
+        )} />
+        <Route path='/login' render={(props) => (
+          <Credentials props={props} />
         )} />
         <Route path='/browse' render={() => (
-          <>
-            <Browse oversites={oversites} />
-          </>
+          <Browse oversites={oversites} />
         )} />
         <Route path='/new-os' render={() => (
-          <>
-            <Compose />
-          </>
+          <Compose />
         )} />
       </Layout>
-      <Footer />
     </Router>
   );
 }
