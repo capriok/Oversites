@@ -1,20 +1,10 @@
 @import "styles/root/index.scss";
 
 .credentials {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
 }
 
 .auth-nav {
-	@include flex;
-	justify-content: space-between;
-	width: 100%;
-	padding: 10px 20px;
-	.go-back,
-	.attract,
+	padding-top: 10px;
 	section > span {
 		cursor: default;
 	}
@@ -26,9 +16,11 @@
 		border: 2px solid $primary;
 		border-radius: 7px;
 	}
-	.go-back {
-		font-weight: 600;
-		cursor: pointer;
-		margin: 20px 10px 20px 0;
+	header {
+		.go-back {
+			cursor: pointer;
+			font-weight: 600;
+			margin: 20px 10px 20px 0;
+		}
 	}
 }

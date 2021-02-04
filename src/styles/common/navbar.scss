@@ -4,6 +4,8 @@
 	@include flex;
 	justify-content: space-between;
 	user-select: none;
+	margin: 10px 40px;
+
 	.links {
 		@include flex;
 		justify-content: flex-end;

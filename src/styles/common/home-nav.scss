@@ -1,4 +1,11 @@
 @import "styles/root/index.scss";
 
 .home-nav {
+	header {
+		a {
+			h1 {
+				font-size: 1.8rem;
+			}
+		}
+	}
 }
