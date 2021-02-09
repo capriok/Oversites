@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { RouteComponentProps } from 'react-router-dom'
 import Nav from '../common/navbar'
 
-import 'styles/common/auth/auth-nav.scss'
+import 'styles/auth/auth-nav.scss'
 
 interface Props {
 	props: RouteComponentProps

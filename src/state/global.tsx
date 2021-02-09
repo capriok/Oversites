@@ -8,19 +8,21 @@ export const globalState: GlobalState = {
 			token: ''
 		}
 	}
-}
+};
 
-const hasLSAuth = localStorage.getItem('OS_USERAUTH');
-if (hasLSAuth) {
-	globalState.user.au.isAuth = true
-	const { isAuth } = JSON.parse(hasLSAuth)
-	if (isAuth) {
-		verifyToken()
-	} else {
-		globalState.user.au.isAuth = false;
+(async function () {
+	const hasLSAuth = localStorage.getItem('OS_USERAUTH')
+
+	if (hasLSAuth) {
+		globalState.user.au.isAuth = true
+		const { isAuth } = JSON.parse(hasLSAuth)
+		if (isAuth) {
+			await verifyToken()
+		} else {
+			return globalState.user.au.isAuth = false
+		}
 	}
-}
-
+})()
 
 async function verifyToken() {
 	const res = await fetch(
@@ -29,21 +31,28 @@ async function verifyToken() {
 	)
 	const { status, message, data: decode } = await res.json()
 
-	if (status === 200) {
-		const { uid, username, join_date } = decode.user
-		console.log({ User: decode })
+	switch (status) {
+		case 200:
+			const { uid, username, join_date } = decode.user
+			console.log({ User: decode })
 
-		return globalState.user = {
-			uid,
-			username,
-			join_date,
-			au: {
-				isAuth: true,
-				token: decode.accessToken
+			return globalState.user = {
+				uid,
+				username,
+				join_date,
+				au: {
+					isAuth: true,
+					token: decode.accessToken
+				}
 			}
-		}
-	} else {
-		console.log({ User: message })
-		return globalState.user.au.isAuth = false
+		case 400:
+		case 401:
+		case 404:
+			console.log({ User: message })
+			localStorage.setItem('OS_USERAUTH', JSON.stringify({ isAuth: false }));
+			globalState.user.au.isAuth = false
+			return window.location.href = '/'
+		default:
+			break;
 	}
 }

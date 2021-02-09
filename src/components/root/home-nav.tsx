@@ -3,7 +3,7 @@ import { useGlobalValue } from 'state/state'
 import { Link, RouteComponentProps } from 'react-router-dom'
 import Nav from '../common/navbar'
 
-import 'styles/common/home-nav.scss'
+import 'styles/root/home-nav.scss'
 
 interface Props {
 	props: RouteComponentProps
@@ -21,8 +21,8 @@ const HomeNav: React.FC<Props> = ({ props }) => {
 			<div className="links">
 				{isAuth
 					? <>
-						<section><Link to="/browse">Browse</Link></section>
-						<section><Link to="/new-os">New OS</Link></section>
+						<section><Link to="/search">Search</Link></section>
+						<section><Link to="/new-oversite">New Oversite</Link></section>
 					</>
 					: <section><Link to="/login">Login</Link></section>
 				}

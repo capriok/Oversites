@@ -1,0 +1,7 @@
+@import "styles/root/index.scss";
+
+.search {
+	padding: 0 40px;
+	@include flex;
+	flex-direction: column;
+}

@@ -33,7 +33,18 @@ interface Oversite {
 	uid: number
 	site: string
 	title: string
-	category: string
 	description: string
-	screenshots: object[]
+	category: string[]
+	proof: object[]
+}
+
+type SearchFormState = {
+	searchValue: string
+	resultsOpen: boolean
+	resultsList: string[]
+}
+
+type SearchFormReducer = {
+	action: string
+	value: string | boolean | string[]
 }

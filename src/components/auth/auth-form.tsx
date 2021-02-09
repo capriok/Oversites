@@ -3,8 +3,8 @@ import { RouteComponentProps } from 'react-router-dom'
 import GoogleLogin from 'react-google-login'
 import { useGlobalValue } from 'state/state'
 
-import 'styles/common/auth/auth-form.scss'
-import 'styles/common/auth/auth-reqs.scss'
+import 'styles/auth/auth-form.scss'
+import 'styles/auth/auth-reqs.scss'
 
 import LOGO_BLACK from '../../assets/logo_black.png'
 import G_ICON from '../../assets/google_icon.png'

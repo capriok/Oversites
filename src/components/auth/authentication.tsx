@@ -2,14 +2,14 @@ import React, { useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { useGlobalValue } from 'state/state'
 
-import AuthForm from '../auth/auth-form'
-import AuthNav from '../auth/auth-nav'
+import AuthForm from './auth-form'
+import AuthNav from './auth-nav'
 
 interface Props {
 	props: RouteComponentProps
 }
 
-const Credentials: React.FC<Props> = ({ props }) => {
+const Authentication: React.FC<Props> = ({ props }) => {
 	const [{ user: { au: { isAuth } } }] = useGlobalValue()
 
 	useEffect(() => {
@@ -26,4 +26,4 @@ const Credentials: React.FC<Props> = ({ props }) => {
 	)
 }
 
-export default Credentials
+export default Authentication
