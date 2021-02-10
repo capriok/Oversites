@@ -17,14 +17,15 @@ const SearchResult: React.FC<Props> = ({ searchResult, resultLoading, setResultL
 		(async () => {
 			const res = await fetch(process.env.REACT_APP_ENDPOINT + '/oversites' || '')
 			const { data: oversites } = await res.json()
-			console.log(oversites);
+			console.log(oversites)
 
 			setOversites(oversites)
+
 			setTimeout(() => {
 				setResultLoading(false)
 			}, Math.floor(Math.random() * 3000))
 		})()
-	}, [resultLoading])
+	}, [searchResult])
 
 	useEffect(() => {
 		if (oversites.length > 0) console.log({ Oversites: oversites })

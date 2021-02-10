@@ -15,7 +15,44 @@ const SearchForm: React.FC<Props> = ({
 	setResultLoading
 }) => {
 
-	const [{ searchValue, resultsOpen, resultsList }, dispatch] = useReducer(searchFormReducer, searchFormState)
+	const [{
+		searchValue,
+		resultsOpen,
+		resultsList,
+		activeResult
+	}, dispatch] = useReducer(searchFormReducer, searchFormState)
+
+	const resultsRef: any = useRef()
+	useOutsideClick(resultsRef, () => {
+		const DOMinput = document.getElementById('formInput')
+		if (DOMinput) {
+			if (document.activeElement === DOMinput) return
+			if (resultsOpen) dispatch({ type: 'TOGGLE_RESULTS', value: false })
+		}
+	})
+
+	useEffect(() => {
+		document.addEventListener('keydown', (e: KeyboardEvent): void => {
+			const ARROWUP = e.code === "ArrowUp"
+			const ARROWDOWN = e.code === "ArrowDown"
+			const ENTER = e.code === "Enter"
+			const DOMInput = document.getElementById('formInput')
+			const DOMResult = document.getElementById('activeResult')
+			if (DOMInput) {
+				if (ARROWDOWN) {
+					DOMInput.blur()
+					return dispatch({ type: 'ACTIVE_RESULT_INC' })
+				} else if (ARROWUP) {
+					return dispatch({ type: 'ACTIVE_RESULT_DEC' })
+				} else if (ENTER) {
+					if (DOMResult) {
+						return selectResult(DOMResult.textContent || '')
+					}
+				}
+			}
+		})
+		return () => document.removeEventListener('keydown', () => { })
+	}, [])
 
 	function findSearchValue(str: string): void {
 		const search = str.toLowerCase()
@@ -34,46 +71,49 @@ const SearchForm: React.FC<Props> = ({
 			}
 		})
 
-		dispatch({ type: 'SET_RES', value: tempList })
+		dispatch({ type: 'SET_RESULTS', value: tempList.slice(0, 10) })
 	}
 
-	function selectResult(i: number): void {
-		dispatch({
-			type: 'SELECT_RES',
-			value: {
-				searchValue: resultsList[i],
-				resultsList: []
-			}
-		})
+	function selectResult(value: string): void {
+		dispatch({ type: 'SELECT_RESULT', value: value })
 		setResultLoading(true)
-		setSearchResult(resultsList[i])
+		setSearchResult(value)
 	}
-
-	const ref: any = useRef();
-	useOutsideClick(ref, () => {
-		if (resultsOpen) dispatch({ type: 'TOGGLE_RESULTS', value: false })
-	});
 
 	useEffect(() => {
 		console.log({ resultsList })
 	}, [resultsList])
 
+	useEffect(() => {
+		const DOMInput = document.getElementById('formInput')
+		if (DOMInput) {
+			if (document.activeElement !== DOMInput && activeResult < 0) {
+				DOMInput.focus()
+				// return dispatch({ type: 'RESET_ACTIVE_RESULT' })
+			}
+		}
+	}, [activeResult])
+
 	return (
 		<div className="search-form">
 			<input
 				type="text"
+				id="formInput"
 				className="form-input"
 				value={searchValue}
 				placeholder="Find a website in our database."
 				onClick={() => resultsList.length > 1 && dispatch({ type: 'TOGGLE_RESULTS', value: true })}
 				onChange={(e) => findSearchValue(e.target.value)} />
 			{resultsOpen && resultsList.length > 0 &&
-				<div className="form-results" ref={ref}>
-					{resultsList.map((res, i) => (
+				<div
+					ref={resultsRef}
+					className="form-results">
+					{resultsList.slice(0, 10).map((res, i) => (
 						<div
 							key={i}
-							className="form-result"
-							onClick={() => selectResult(i)}>
+							id={i === activeResult ? 'activeResult' : undefined}
+							className={i === activeResult ? 'form-result active-result' : 'form-result'}
+							onClick={() => selectResult(resultsList[i])}>
 							{res}
 						</div>
 					))}
@@ -88,38 +128,62 @@ export default SearchForm
 const searchFormState: SearchFormState = {
 	searchValue: "",
 	resultsOpen: false,
-	resultsList: ['Loading...']
+	resultsList: [],
+	activeResult: -1
 }
 
-const searchFormReducer = (state: SearchFormState, action: any) => {
+const searchFormReducer = (state: SearchFormState, action: SearchFormReducer): SearchFormState => {
 	switch (action.type) {
 		case "SET_VALUE":
 			return {
 				...state,
 				searchValue: action.value,
-				resultsOpen: true
+				resultsOpen: true,
+				activeResult: -1
 			}
-		case "SET_RES":
+		case "SET_RESULTS":
 			return {
 				...state,
 				resultsList: action.value,
-				resultsOpen: true
+				resultsOpen: true,
+				activeResult: -1
 			}
 		case "TOGGLE_RESULTS":
 			return {
 				...state,
 				resultsOpen: action.value
 			}
-		case "SELECT_RES":
+		case "SELECT_RESULT":
 			return {
 				...state,
-				...action.value
+				searchValue: action.value,
+				resultsList: [],
+				activeResult: -1
+			}
+		case "ACTIVE_RESULT_INC":
+			return {
+				...state,
+				activeResult: state.activeResult < state.resultsList.length - 1
+					? state.activeResult + 1
+					: state.activeResult
+			}
+		case "ACTIVE_RESULT_DEC":
+			return {
+				...state,
+				activeResult: state.activeResult > 0
+					? state.activeResult - 1
+					: -1
+			}
+		case "RESET_ACTIVE_RESULT":
+			return {
+				...state,
+				activeResult: -1
 			}
 		case "RESET_FORM":
 			return {
-				...searchFormState
+				...searchFormState,
 			}
 		default:
-			break;
+			return state
 	}
 }
