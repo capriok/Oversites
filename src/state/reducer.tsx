@@ -1,4 +1,4 @@
-export function globalReducer(state: GlobalState, action: Partial<ReducerAction>) {
+export function globalReducer(state: GlobalState, action: GlobalReducer): GlobalState {
 	switch (action.type) {
 		case "USER_AUTH":
 			return {

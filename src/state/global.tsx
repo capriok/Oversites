@@ -53,6 +53,7 @@ async function verifyToken() {
 			globalState.user.au.isAuth = false
 			return window.location.href = '/'
 		default:
+			console.error('Auth Eror')
 			break;
 	}
 }

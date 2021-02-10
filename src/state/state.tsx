@@ -8,7 +8,7 @@ export const StateContext = createContext<any>({
 
 interface ProviderProps {
 	globalState: GlobalState
-	globalReducer: Reducer<GlobalState, ReducerAction>
+	globalReducer: Reducer<GlobalState, GlobalReducer>
 }
 
 export const GlobalProvider: React.FC<ProviderProps> = ({ globalState, globalReducer, children }) => (
