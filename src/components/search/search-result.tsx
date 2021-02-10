@@ -9,7 +9,11 @@ interface Props {
 	setResultLoading: React.Dispatch<boolean>
 }
 
-const SearchResult: React.FC<Props> = ({ searchResult, resultLoading, setResultLoading }) => {
+const SearchResult: React.FC<Props> = ({
+	searchResult,
+	resultLoading,
+	setResultLoading
+}) => {
 
 	const [oversites, setOversites] = useState<Oversite[]>([])
 
@@ -17,7 +21,7 @@ const SearchResult: React.FC<Props> = ({ searchResult, resultLoading, setResultL
 		(async () => {
 			const res = await fetch(process.env.REACT_APP_ENDPOINT + '/oversites' || '')
 			const { data: oversites } = await res.json()
-			console.log(oversites)
+			console.log({ Oversites: oversites })
 
 			setOversites(oversites)
 
@@ -50,13 +54,13 @@ const SearchResult: React.FC<Props> = ({ searchResult, resultLoading, setResultL
 								<p>{os.title}</p>
 								<p>{os.description}</p>
 								{os.proof.length > 0
-									? os.proof.map((buffer, i) => {
-										return <img
+									? os.proof.map((buffer, i) => (
+										<img
 											alt=""
 											key={i}
 											style={{ width: '500px', margin: '0 auto' }}
 											src={'data:image/jpg;base64,' + bufferToBase64(buffer)} />
-									})
+									))
 									: <p>No Images.</p>
 								}
 							</div>

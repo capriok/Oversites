@@ -10,12 +10,15 @@ interface Props {
 const FormResults: React.FC<Props> = ({
 	state,
 	dispatch,
-	selectResult }) => {
+	selectResult
+}) => {
 
 	const { resultsOpen, resultsList, activeResult } = state
+
 	const resultsRef: any = useRef()
 	useOutsideClick(resultsRef, () => {
 		const DOMinput = document.getElementById('formInput')
+
 		if (document.activeElement === DOMinput) return
 		if (resultsOpen) dispatch({ type: 'TOGGLE_RESULTS', value: false })
 	})
@@ -24,6 +27,7 @@ const FormResults: React.FC<Props> = ({
 		document.addEventListener('keydown', (e: KeyboardEvent): void => {
 			const DOMResult = document.getElementById('activeResult')
 			const DOMInput = document.getElementById('formInput')
+
 			switch (e.code) {
 				case 'ArrowUp':
 					return dispatch({ type: 'ACTIVE_RESULT_DEC' })
@@ -38,11 +42,13 @@ const FormResults: React.FC<Props> = ({
 					break;
 			}
 		})
+
 		return () => document.removeEventListener('keydown', () => dispatch({ type: 'RESET_ACTIVE_RESULT' }))
 	}, [])
 
 	useEffect(() => {
 		const DOMInput = document.getElementById('formInput')
+
 		if (document.activeElement !== DOMInput && activeResult < 0) {
 			DOMInput?.focus()
 		}

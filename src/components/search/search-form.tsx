@@ -17,7 +17,6 @@ const SearchForm: React.FC<Props> = ({
 }) => {
 
 	const [state, dispatch] = useReducer(searchFormReducer, searchFormState)
-
 	const { searchValue, resultsList } = state
 
 	function findSearchValue(str: string): void {
@@ -47,7 +46,7 @@ const SearchForm: React.FC<Props> = ({
 	}
 
 	useEffect(() => {
-		console.log({ resultsList })
+		console.log({ ResultsList: resultsList })
 	}, [resultsList])
 
 	return (
