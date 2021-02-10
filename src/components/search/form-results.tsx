@@ -16,21 +16,22 @@ const FormResults: React.FC<Props> = ({
 	const resultsRef: any = useRef()
 	useOutsideClick(resultsRef, () => {
 		const DOMinput = document.getElementById('formInput')
-		if (DOMinput) {
-			if (document.activeElement === DOMinput) return
-			if (resultsOpen) dispatch({ type: 'TOGGLE_RESULTS', value: false })
-		}
+		if (document.activeElement === DOMinput) return
+		if (resultsOpen) dispatch({ type: 'TOGGLE_RESULTS', value: false })
 	})
+
 	useEffect(() => {
 		document.addEventListener('keydown', (e: KeyboardEvent): void => {
+			const DOMResult = document.getElementById('activeResult')
+			const DOMInput = document.getElementById('formInput')
 			switch (e.code) {
 				case 'ArrowUp':
 					return dispatch({ type: 'ACTIVE_RESULT_DEC' })
 				case 'ArrowDown':
-					if (resultsOpen) document.getElementById('formInput')?.blur()
+					DOMInput?.blur()
 					return dispatch({ type: 'ACTIVE_RESULT_INC' })
 				case 'Enter':
-					return selectResult(document.getElementById('activeResult')?.textContent || '')
+					return selectResult(DOMResult?.textContent || '')
 				case 'Escape':
 					return dispatch({ type: 'TOGGLE_RESULTS', value: false })
 				default:
