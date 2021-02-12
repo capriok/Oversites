@@ -1,6 +1,23 @@
 @import "styles/root/index.scss";
 
 .search-result {
-	border: 1px solid #000;
 	width: 100%;
+	.result-item {
+		width: 100%;
+
+		&:not(:last-child) {
+			margin-bottom: 20px;
+			padding-bottom: 20px;
+			border-bottom: 2px solid $plight;
+		}
+		.item-head,
+		.item-foot {
+			@include flex;
+			justify-content: space-between;
+		}
+	}
+	.results-empty {
+		width: 100%;
+		text-align: center;
+	}
 }
