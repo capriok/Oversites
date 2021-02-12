@@ -49,6 +49,7 @@ interface Oversite {
 	uid: number
 	site: string
 	title: string
+	serverity: number
 	description: string
 	category: string[]
 	proof: object[]

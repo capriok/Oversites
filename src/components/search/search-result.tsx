@@ -27,7 +27,7 @@ const SearchResult: React.FC<Props> = ({
 
 			setTimeout(() => {
 				setResultLoading(false)
-			}, Math.floor(Math.random() * 3000))
+			}, Math.floor(Math.random() * 0))
 		})()
 	}, [searchResult])
 
@@ -43,17 +43,27 @@ const SearchResult: React.FC<Props> = ({
 
 	return (
 		<div className="search-result">
-			<h1>{searchResult}</h1>
+			<h1>{searchResult.charAt(0).toUpperCase() + searchResult.slice(1)}</h1>
 			<br />
 			{resultLoading
 				? <Loader />
 				: <>
-					{oversites.length > 0 &&
-						oversites.map((os: Oversite, i) => (
-							<div key={i}>
-								<p>{os.title}</p>
-								<p>{os.description}</p>
-								{os.proof.length > 0
+					{oversites.length > 0
+						? oversites.map((os, i) => (
+							<div
+								key={i}
+								className="result-item">
+								<div className="item-head">
+									<h3>{os.title}</h3>
+									<h3>Username</h3>
+								</div>
+								<p>Severity: {os.serverity}</p>
+								<div className="item-foot">
+									<p>{os.category}</p>
+									<button>Investigate</button>
+								</div>
+
+								{/* {os.proof.length > 0
 									? os.proof.map((buffer, i) => (
 										<img
 											alt=""
@@ -62,9 +72,10 @@ const SearchResult: React.FC<Props> = ({
 											src={'data:image/jpg;base64,' + bufferToBase64(buffer)} />
 									))
 									: <p>No Images.</p>
-								}
+								} */}
 							</div>
 						))
+						: <p className="results-empty">There doesnt seem to be any oversights.</p>
 					}
 				</>
 			}

@@ -36,7 +36,7 @@ const Search: React.FC<Props> = () => {
 
 	return (
 		<div className="search">
-			<h1>Search for Oversites</h1>
+			<h1>Search for Oversights</h1>
 			<SearchForm
 				websiteList={websiteList}
 				setSearchResult={setSearchResult}
