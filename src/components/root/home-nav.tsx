@@ -22,7 +22,7 @@ const HomeNav: React.FC<Props> = ({ props }) => {
 				{isAuth
 					? <>
 						<section><Link to="/search">Search</Link></section>
-						<section><Link to="/new-oversite">New Oversite</Link></section>
+						<section><Link to="/compose">New Oversite</Link></section>
 					</>
 					: <section><Link to="/login">Login</Link></section>
 				}

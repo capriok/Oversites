@@ -27,7 +27,7 @@ const SearchResult: React.FC<Props> = ({
 
 			setTimeout(() => {
 				setResultLoading(false)
-			}, Math.floor(Math.random() * 0))
+			}, Math.floor(Math.random() * 3000))
 		})()
 	}, [searchResult])
 
@@ -43,10 +43,12 @@ const SearchResult: React.FC<Props> = ({
 
 	return (
 		<div className="search-result">
-			<h1>{searchResult.charAt(0).toUpperCase() + searchResult.slice(1)}</h1>
+			<h1 className="result-title">
+				{searchResult.charAt(0).toUpperCase() + searchResult.slice(1)}
+			</h1>
 			<br />
 			{resultLoading
-				? <Loader />
+				? <><br /><Loader /></>
 				: <>
 					{oversites.length > 0
 						? oversites.map((os, i) => (
@@ -59,7 +61,7 @@ const SearchResult: React.FC<Props> = ({
 								</div>
 								<p>Severity: {os.serverity}</p>
 								<div className="item-foot">
-									<p>{os.category}</p>
+									<span>{os.category}</span>
 									<button>Investigate</button>
 								</div>
 

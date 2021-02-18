@@ -46,8 +46,8 @@ interface BufferObject {
 }
 
 interface Oversite {
-	uid: number
 	site: string
+	uid: number
 	title: string
 	serverity: number
 	description: string

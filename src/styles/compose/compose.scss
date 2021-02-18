@@ -1,0 +1,75 @@
+@import "styles/root/index.scss";
+
+.compose {
+	@include flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 1000px;
+	margin: 0 auto;
+	.compose-title {
+		width: 100%;
+		text-align: center;
+		padding-bottom: 40px;
+		border-bottom: 2px solid $plight;
+	}
+	table {
+		@include flex;
+		flex-direction: column;
+		width: 100%;
+		max-width: 600px;
+
+		tbody {
+			flex: 1;
+			tr {
+				@include flex;
+				align-items: flex-start;
+				td {
+					flex: 1;
+					padding: 10px 0;
+
+					.row-label {
+						width: 100%;
+						min-width: 120px;
+						max-width: 120px;
+						padding-right: 40px;
+						margin: 0;
+						margin-left: -120px;
+					}
+					input,
+					select,
+					textarea,
+					.upload-btn,
+					.submit-btn {
+						max-width: 400px;
+						min-width: 400px;
+					}
+					.upload-btn {
+						label {
+							width: 100%;
+						}
+					}
+					.preview-map {
+						@include flex;
+						flex-direction: column;
+						min-width: 400px;
+
+						.preview-head {
+							@include flex;
+							justify-content: space-between;
+							width: 100%;
+						}
+						.preview-img {
+							width: 100%;
+							max-width: 400px;
+							&:not(:last-child) {
+								padding-bottom: 20px;
+								margin-bottom: 20px;
+								border-bottom: 2px solid $light-grey;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

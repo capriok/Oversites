@@ -9,7 +9,7 @@ interface Props {
 
 }
 
-const Landing: React.FC<Props> = ({ }) => {
+const Landing: React.FC<Props> = () => {
 	return (
 		<div className="landing">
 			<div className="head-cont">
