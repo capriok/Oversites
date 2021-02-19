@@ -18,6 +18,7 @@
 			height: 3px;
 			border-radius: 5px;
 			background-color: $primary;
+
 			&:nth-child(1) {
 				animation-delay: 0.4s;
 				transform: translateX(-10px);
@@ -26,33 +27,34 @@
 				animation-delay: 0.4s;
 				transform: translateX(10px);
 			}
-			@keyframes loader {
-				0% {
-					height: 5px;
-					bottom: 0;
-					opacity: 1;
-				}
-				25% {
-					opacity: 0.3;
-					bottom: 0;
-					height: 15px;
-				}
-				50% {
-					opacity: 1;
-					height: 5px;
-					bottom: calc(100% - 5px);
-				}
-				75% {
-					opacity: 0.3;
-					height: 15px;
-					bottom: 0;
-				}
-				100% {
-					opacity: 1;
-					height: 5px;
-					bottom: 0;
-				}
-			}
 		}
+	}
+}
+
+@keyframes loader {
+	0% {
+		height: 5px;
+		bottom: 0;
+		opacity: 1;
+	}
+	25% {
+		opacity: 0.3;
+		bottom: 0;
+		height: 15px;
+	}
+	50% {
+		opacity: 1;
+		height: 5px;
+		bottom: calc(100% - 5px);
+	}
+	75% {
+		opacity: 0.3;
+		height: 15px;
+		bottom: 0;
+	}
+	100% {
+		opacity: 1;
+		height: 5px;
+		bottom: 0;
 	}
 }
