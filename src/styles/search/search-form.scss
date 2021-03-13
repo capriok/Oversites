@@ -12,12 +12,14 @@
 		width: 100%;
 	}
 	.form-results {
-		top: 30px;
+		top: 35px;
 		position: absolute;
 		padding: 10px 0;
 		border: 2px solid $light-grey;
 		border-top: none;
 		border-right-width: 1px;
+		border-top-right-radius: 5px;
+		border-top-left-radius: 5px;
 		border-bottom-right-radius: 10px;
 		border-bottom-left-radius: 10px;
 		background-color: $app-background;
