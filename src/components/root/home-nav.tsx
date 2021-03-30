@@ -25,7 +25,7 @@ const HomeNav: React.FC<Props> = ({ props }) => {
 					? <>
 						<section><Link to="/search">Search</Link></section>
 						<section><Link to="/compose">New Oversite</Link></section>
-						<section><Link to="" onClick={() => dispatch({ type: "USER_LOGOUT" })}>Logout</Link></section>
+						<section><Link to="" onClick={() => dispatch({ type: "REVOKE_AUTH" })}>Logout</Link></section>
 					</>
 					: <>
 						<section><Link to="/search">Search</Link></section>

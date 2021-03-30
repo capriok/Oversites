@@ -2,13 +2,17 @@ import { globalState as initialState } from './global'
 
 export function globalReducer(state: GlobalState, action: GlobalReducer): GlobalState {
 	switch (action.type) {
-		case "USER_AUTH":
+		case "AUTHENTICATE":
 			return {
 				...state,
-				user: action.payload
+				user: {
+					...state.user,
+					userId: action.userId,
+					isAuth: true
+				}
 			}
-		case "USER_LOGOUT":
-			localStorage.setItem('OS_USERAUTH', JSON.stringify({ isAuth: false }));
+		case "REVOKE_AUTH":
+			localStorage.setItem('_osUserAuthStatus', JSON.stringify({ isAuth: false }));
 			window.location.href = "/";
 
 			return {

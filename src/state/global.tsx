@@ -1,6 +1,6 @@
 export const globalState: GlobalState = {
 	user: {
-		uid: null,
+		userId: null,
 		isAuth: false,
 		details: {
 			username: '',
@@ -10,7 +10,7 @@ export const globalState: GlobalState = {
 };
 
 (async function () {
-	const hasLSAuth = localStorage.getItem('OS_USERAUTH')
+	const hasLSAuth = localStorage.getItem('_osUserAuthStatus')
 
 	if (hasLSAuth) {
 		globalState.user.isAuth = true
@@ -33,16 +33,14 @@ async function verifyToken() {
 	switch (res.status) {
 		case 200:
 			const user = data
-
 			console.log(user);
-
 			return globalState.user = {
 				...globalState.user,
-				uid: user.Id,
+				userId: user.Id,
 				isAuth: true
 			}
 		case 401:
-			localStorage.setItem('OS_USERAUTH', JSON.stringify({ isAuth: false }));
+			localStorage.setItem('_osUserAuthStatus', JSON.stringify({ isAuth: false }));
 			globalState.user.isAuth = false
 			return window.location.href = '/'
 		default:

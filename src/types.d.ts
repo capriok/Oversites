@@ -3,16 +3,24 @@ interface GlobalState {
 }
 
 type GlobalReducer =
-	| { type: 'USER_AUTH', payload: User }
-	| { type: 'USER_LOGOUT' }
+	| { type: 'AUTHENTICATE', userId: number }
+	| { type: 'REVOKE_AUTH' }
 
-
-type SearchFormState = {
-	searchValue: string
-	resultsOpen: boolean
-	resultsList: string[]
-	activeResult: number
+interface ContextProps {
+	state: GlobalState
+	dispatch: Dispatch<ReducerAction>
 }
+
+
+
+interface AuthFormState {
+	title: string
+	username: string
+	password: string
+	submitting: boolean
+}
+
+type AuthFormDispatch = Dispatch<AuthFormReducer>
 
 type AuthFormReducer =
 	| { type: 'RESET_FORM' }
@@ -26,7 +34,14 @@ type AuthFormReducer =
 	| { type: 'PASS_CONFLICT' }
 	| { type: 'NOT_FOUND' }
 
-type AuthFormDispatch = Dispatch<AuthFormReducer>
+
+
+type SearchFormState = {
+	searchValue: string
+	resultsOpen: boolean
+	resultsList: string[]
+	activeResult: number
+}
 
 type SearchFormReducer =
 	| { type: 'SET_VALUE', value: string }
@@ -38,20 +53,9 @@ type SearchFormReducer =
 	| { type: 'RESET_ACTIVE_RESULT' }
 	| { type: 'RESET_FORM' }
 
-interface ContextProps {
-	state: GlobalState
-	dispatch: Dispatch<ReducerAction>
-}
-
-interface AuthFormState {
-	title: string
-	username: string
-	password: string
-	submitting: boolean
-}
 
 interface User {
-	uid: number | null
+	userId: number | null
 	isAuth: boolean
 	details: UserDeatils
 }

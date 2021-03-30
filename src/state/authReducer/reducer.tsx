@@ -5,7 +5,7 @@ export const authFormState: AuthFormState = {
 	submitting: false
 }
 
-export const authFormReducer = (state, action) => {
+export const authFormReducer = (state: AuthFormState, action: AuthFormReducer): AuthFormState => {
 	switch (action.type) {
 		case "RESET_FORM":
 			return {
@@ -68,6 +68,6 @@ export const authFormReducer = (state, action) => {
 			}
 
 		default:
-			break;
+			return state;
 	}
 }

@@ -44,24 +44,15 @@ const Login: React.FC<Props> = ({ formState, formDispatch }) => {
 
 	function successfulAuthentication(user: User | any) {
 		const authLogo = document.getElementById('authLogo')
+		authLogo?.classList.add('logo-anim')
 
-		if (authLogo) {
-			authLogo.classList.add('logo-anim')
+		const hideDelay = setTimeout(() => {
+			authLogo?.classList.add('logo-hide')
+			localStorage.setItem('_osUserAuthStatus', JSON.stringify({ isAuth: true }))
 
-			const hideDelay = setTimeout(() => {
-				authLogo.classList.add('logo-hide')
-				localStorage.setItem('OS_USERAUTH', JSON.stringify({ isAuth: true }))
-
-				globalDispatch({
-					type: 'USER_AUTH',
-					payload: {
-						...user,
-						isAuth: true
-					}
-				})
-				clearTimeout(hideDelay)
-			}, 900)
-		}
+			globalDispatch({ type: 'AUTHENTICATE', userId: user.Id })
+			clearTimeout(hideDelay)
+		}, 900)
 	}
 
 	return (
