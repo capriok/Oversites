@@ -10,10 +10,12 @@ interface Props {
 }
 
 const HomeNav: React.FC<Props> = ({ props }) => {
-	const [{ user: { au: { isAuth } } }] = useGlobalValue()
+	const [{ user: { isAuth } }, dispatch] = useGlobalValue()
 
-	const path = props.location.pathname.split('/').splice(1)
-	if (path[0] === 'login' || path[1] === 'register') return <></>
+	const isAtLogin = props.location.pathname === '/auth/login'
+	const isAtRegister = props.location.pathname === '/auth/register'
+
+	if (isAtLogin || isAtRegister) return <></>
 
 	return (
 		<Nav className="home-nav">
@@ -23,8 +25,12 @@ const HomeNav: React.FC<Props> = ({ props }) => {
 					? <>
 						<section><Link to="/search">Search</Link></section>
 						<section><Link to="/compose">New Oversite</Link></section>
+						<section><Link to="" onClick={() => dispatch({ type: "USER_LOGOUT" })}>Logout</Link></section>
 					</>
-					: <section><Link to="/login">Login</Link></section>
+					: <>
+						<section><Link to="/search">Search</Link></section>
+						<section><Link to="/auth/login">Login</Link></section>
+					</>
 				}
 			</div>
 		</Nav>

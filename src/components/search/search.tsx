@@ -31,7 +31,7 @@ const Search: React.FC<Props> = () => {
 	useEffect(() => {
 		const siteList = parseLocalDataset()
 		console.log({ Websites: siteList })
-		setWebsiteList(siteList)
+		setWebsiteList(siteList);
 	}, [])
 
 	return (

@@ -19,8 +19,9 @@ const SearchResult: React.FC<Props> = ({
 
 	useEffect(() => {
 		(async () => {
-			const res = await fetch(process.env.REACT_APP_ENDPOINT + '/oversites' || '')
-			const { data: oversites } = await res.json()
+			const res = await fetch(process.env.REACT_APP_ENDPOINT + '/oversites' || '', { credentials: 'include' })
+			const data = await res.json()
+			let oversites = data
 			console.log({ Oversites: oversites })
 
 			setOversites(oversites)

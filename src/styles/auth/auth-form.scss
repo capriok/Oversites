@@ -5,6 +5,9 @@
 	flex-direction: column;
 	height: calc(100vh - 60px);
 	width: 100%;
+	.form-title {
+		text-transform: capitalize;
+	}
 	.image-cont {
 		user-select: none;
 		@include flex;

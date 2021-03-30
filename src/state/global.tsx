@@ -1,11 +1,10 @@
 export const globalState: GlobalState = {
 	user: {
 		uid: null,
-		username: '',
-		join_date: '',
-		au: {
-			isAuth: false,
-			token: ''
+		isAuth: false,
+		details: {
+			username: '',
+			join_date: ''
 		}
 	}
 };
@@ -14,46 +13,40 @@ export const globalState: GlobalState = {
 	const hasLSAuth = localStorage.getItem('OS_USERAUTH')
 
 	if (hasLSAuth) {
-		globalState.user.au.isAuth = true
+		globalState.user.isAuth = true
 		const { isAuth } = JSON.parse(hasLSAuth)
 		if (isAuth) {
 			await verifyToken()
 		} else {
-			return globalState.user.au.isAuth = false
+			return globalState.user.isAuth = false
 		}
 	}
 })()
 
 async function verifyToken() {
 	const res = await fetch(
-		process.env.REACT_APP_ENDPOINT + '/user-auth',
+		process.env.REACT_APP_ENDPOINT + '/refreshAccessToken',
 		{ credentials: 'include' }
 	)
-	const { status, message, data: decode } = await res.json()
+	const data = await res.json()
 
-	switch (status) {
+	switch (res.status) {
 		case 200:
-			const { uid, username, join_date } = decode.user
-			console.log({ User: decode })
+			const user = data
+
+			console.log(user);
 
 			return globalState.user = {
-				uid,
-				username,
-				join_date,
-				au: {
-					isAuth: true,
-					token: decode.accessToken
-				}
+				...globalState.user,
+				uid: user.Id,
+				isAuth: true
 			}
-		case 400:
 		case 401:
-		case 404:
-			console.log({ User: message })
 			localStorage.setItem('OS_USERAUTH', JSON.stringify({ isAuth: false }));
-			globalState.user.au.isAuth = false
+			globalState.user.isAuth = false
 			return window.location.href = '/'
 		default:
-			console.error('Auth Eror')
+			console.error('Auth Error')
 			break;
 	}
 }

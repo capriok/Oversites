@@ -4,6 +4,7 @@ interface GlobalState {
 
 type GlobalReducer =
 	| { type: 'USER_AUTH', payload: User }
+	| { type: 'USER_LOGOUT' }
 
 
 type SearchFormState = {
@@ -12,6 +13,20 @@ type SearchFormState = {
 	resultsList: string[]
 	activeResult: number
 }
+
+type AuthFormReducer =
+	| { type: 'RESET_FORM' }
+	| { type: 'TITLE', value: string }
+	| { type: 'USERNAME', value: string }
+	| { type: 'PASSWORD', value: string }
+	| { type: 'SUBMITTING' }
+	| { type: 'AUTHENTICATE' }
+	| { type: 'USER_CREATED' }
+	| { type: 'NAME_CONFLICT' }
+	| { type: 'PASS_CONFLICT' }
+	| { type: 'NOT_FOUND' }
+
+type AuthFormDispatch = Dispatch<AuthFormReducer>
 
 type SearchFormReducer =
 	| { type: 'SET_VALUE', value: string }
@@ -28,16 +43,22 @@ interface ContextProps {
 	dispatch: Dispatch<ReducerAction>
 }
 
-interface User {
-	uid: number | null
+interface AuthFormState {
+	title: string
 	username: string
-	join_date: string
-	au: UserAu
+	password: string
+	submitting: boolean
 }
 
-interface UserAu {
+interface User {
+	uid: number | null
 	isAuth: boolean
-	token: string
+	details: UserDeatils
+}
+
+interface UserDetails {
+	username: string
+	join_date: string
 }
 
 interface BufferObject {

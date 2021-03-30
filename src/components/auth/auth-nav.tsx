@@ -10,7 +10,7 @@ interface Props {
 }
 
 const AuthNav: React.FC<Props> = ({ props }) => {
-	const registering = props.location.pathname === '/login/register'
+	const registering = props.location.pathname === '/auth/register'
 
 	return (
 		<Nav className="auth-nav">
@@ -22,7 +22,7 @@ const AuthNav: React.FC<Props> = ({ props }) => {
 					? <>
 						<section>
 							<span>Have an account?</span>
-							<Link to="/login" className="link">
+							<Link to="/auth/login" className="link">
 								<div className="attract">Login</div>
 							</Link>
 						</section>
@@ -30,7 +30,7 @@ const AuthNav: React.FC<Props> = ({ props }) => {
 					: <>
 						<section>
 							<span>Not a member?</span>
-							<Link to="/login/register">
+							<Link to="/auth/register">
 								<div className="attract">Sign Up</div>
 							</Link>
 						</section>

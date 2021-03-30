@@ -1,6 +1,6 @@
 import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-// import { useGlobalValue } from 'state/state'
+import { BrowserRouter as Router, Route, Redirect, } from 'react-router-dom'
+import { useGlobalValue } from 'state/state'
 
 import Layout from 'components/root/layout'
 import HomeNav from 'components/root/home-nav'
@@ -12,9 +12,21 @@ import Compose from 'components/compose/compose'
 import Search from 'components/search/search'
 import Authentication from 'components/auth/authentication'
 
-
 const App: React.FC = () => {
-  // const [{ user: { au: { isAuth } } }] = useGlobalValue()
+  const [{ user: { isAuth } }] = useGlobalValue()
+
+  const ProtectedRoute = ({ path, component: Component }:
+    { path: string, component: React.FC<any> }) => (
+    <>
+      {
+        isAuth
+          ? <Route exact path={path} render={(props) => <Component props={props} />} />
+          : window.location.pathname === path
+            ? <Redirect to="/login" />
+            : <Redirect to={window.location.pathname} />
+      }
+    </>
+  )
 
   return (
     <Router>
@@ -25,15 +37,13 @@ const App: React.FC = () => {
         <Route exact path='/' render={() => (
           <Landing />
         )} />
-        <Route path='/login' render={(props) => (
+        <Route path='/auth' render={(props) => (
           <Authentication props={props} />
         )} />
-        <Route path='/search' render={() => (
+        <Route exact path='/search' render={() => (
           <Search />
         )} />
-        <Route path='/compose' render={() => (
-          <Compose />
-        )} />
+        <ProtectedRoute path="/compose" component={Compose} />
       </Layout>
     </Router>
   );
