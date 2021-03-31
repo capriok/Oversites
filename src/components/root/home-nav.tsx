@@ -12,8 +12,8 @@ interface Props {
 const HomeNav: React.FC<Props> = ({ props }) => {
 	const [{ user: { isAuth } }, dispatch] = useGlobalValue()
 
-	const isAtLogin = props.location.pathname === '/auth/login'
-	const isAtRegister = props.location.pathname === '/auth/register'
+	const isAtLogin = props.location.pathname === '/login'
+	const isAtRegister = props.location.pathname === '/register'
 
 	if (isAtLogin || isAtRegister) return <></>
 
@@ -29,7 +29,7 @@ const HomeNav: React.FC<Props> = ({ props }) => {
 					</>
 					: <>
 						<section><Link to="/search">Search</Link></section>
-						<section><Link to="/auth/login">Login</Link></section>
+						<section><Link to="/login">Login</Link></section>
 					</>
 				}
 			</div>

@@ -25,8 +25,8 @@ export const globalState: GlobalState = {
 
 async function verifyToken() {
 	const res = await fetch(
-		process.env.REACT_APP_ENDPOINT + '/refreshAccessToken',
-		{ credentials: 'include' }
+		process.env.REACT_APP_ENDPOINT + '/authentication',
+		{ method: 'GET', credentials: 'include' }
 	)
 	const data = await res.json()
 
@@ -39,12 +39,9 @@ async function verifyToken() {
 				userId: user.Id,
 				isAuth: true
 			}
-		case 401:
+		default:
 			localStorage.setItem('_osUserAuthStatus', JSON.stringify({ isAuth: false }));
 			globalState.user.isAuth = false
 			return window.location.href = '/'
-		default:
-			console.error('Auth Error')
-			break;
 	}
 }

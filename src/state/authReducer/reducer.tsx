@@ -31,7 +31,7 @@ export const authFormReducer = (state: AuthFormState, action: AuthFormReducer): 
 				...state,
 				submitting: true
 			}
-		case "AUTHENTICATE":
+		case "GRANT_AUTH":
 			return {
 				...state,
 				title: 'Authenticated',

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useGlobalValue } from 'state/state'
 
 import AuthForm from '../auth-form'
@@ -34,7 +34,7 @@ const Login: React.FC<Props> = ({ formState, formDispatch }) => {
 				formDispatch({ type: 'PASS_CONFLICT' })
 				break;
 			case 200: // Ok
-				formDispatch({ type: 'AUTHENTICATE' })
+				formDispatch({ type: 'GRANT_AUTH' })
 				successfulAuthentication(user)
 				break;
 			default:
@@ -50,7 +50,7 @@ const Login: React.FC<Props> = ({ formState, formDispatch }) => {
 			authLogo?.classList.add('logo-hide')
 			localStorage.setItem('_osUserAuthStatus', JSON.stringify({ isAuth: true }))
 
-			globalDispatch({ type: 'AUTHENTICATE', userId: user.Id })
+			globalDispatch({ type: 'GRANT_AUTH', userId: user.Id })
 			clearTimeout(hideDelay)
 		}, 900)
 	}

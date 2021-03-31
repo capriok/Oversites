@@ -3,7 +3,7 @@ interface GlobalState {
 }
 
 type GlobalReducer =
-	| { type: 'AUTHENTICATE', userId: number }
+	| { type: 'GRANT_AUTH', userId: number }
 	| { type: 'REVOKE_AUTH' }
 
 interface ContextProps {
@@ -28,7 +28,7 @@ type AuthFormReducer =
 	| { type: 'USERNAME', value: string }
 	| { type: 'PASSWORD', value: string }
 	| { type: 'SUBMITTING' }
-	| { type: 'AUTHENTICATE' }
+	| { type: 'GRANT_AUTH' }
 	| { type: 'USER_CREATED' }
 	| { type: 'NAME_CONFLICT' }
 	| { type: 'PASS_CONFLICT' }

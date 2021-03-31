@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Redirect, } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect, Switch, } from 'react-router-dom'
 import { useGlobalValue } from 'state/state'
 
 import Layout from 'components/root/layout'
@@ -30,21 +30,23 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <Layout>
-        <Route path='/' render={(props) => (
-          <HomeNav props={props} />
-        )} />
-        <Route exact path='/' render={() => (
-          <Landing />
-        )} />
-        <Route path='/auth' render={(props) => (
-          <Authentication props={props} />
-        )} />
-        <Route exact path='/search' render={() => (
-          <Search />
-        )} />
-        <ProtectedRoute path="/compose" component={Compose} />
-      </Layout>
+      <Switch>
+        <Layout>
+          <Route path='/' render={(props) => (
+            <HomeNav props={props} />
+          )} />
+          <Route exact path='/' render={() => (
+            <Landing />
+          )} />
+          <Route exact path='/search' render={() => (
+            <Search />
+          )} />
+          <ProtectedRoute path="/compose" component={Compose} />
+          <Route path='/' render={(props) => (
+            <Authentication props={props} />
+          )} />
+        </Layout>
+      </Switch>
     </Router>
   );
 }

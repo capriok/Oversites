@@ -10,7 +10,7 @@ interface Props {
 }
 
 const AuthNav: React.FC<Props> = ({ props }) => {
-	const registering = props.location.pathname === '/auth/register'
+	const isAtRegister = props.location.pathname === '/register'
 
 	return (
 		<Nav className="auth-nav">
@@ -18,26 +18,14 @@ const AuthNav: React.FC<Props> = ({ props }) => {
 				<a href="/" className="go-back"><span>&lt;</span> Return</a>
 			</header>
 			<div className="links">
-				{registering
-					? <>
-						<section>
-							<span>Have an account?</span>
-							<Link to="/auth/login" className="link">
-								<div className="attract">Login</div>
-							</Link>
-						</section>
-					</>
-					: <>
-						<section>
-							<span>Not a member?</span>
-							<Link to="/auth/register">
-								<div className="attract">Sign Up</div>
-							</Link>
-						</section>
-					</>
-				}
+				<section>
+					<span>{isAtRegister ? 'Have an account?' : 'Not a member?'}</span>
+					<Link to={!isAtRegister ? '/register' : '/login'} className="link">
+						<div className="attract">{isAtRegister ? 'Login' : 'Sign Up'}</div>
+					</Link>
+				</section>
 			</div>
-		</Nav >
+		</Nav>
 	)
 }
 
