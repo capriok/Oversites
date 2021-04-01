@@ -1,57 +1,44 @@
 import React from 'react'
-import { useGlobalValue } from 'state/state'
-
+import { useGlobalValue } from 'state/global-context/state'
+import { Login as ApiLogin } from '../../../api/os'
 import AuthForm from '../auth-form'
 
 interface Props {
-	formState: AuthFormState
-	formDispatch: AuthFormDispatch
+	form: {
+		state: AuthFormState
+		dispatch: AuthFormDispatch
+	}
 }
 
-const Login: React.FC<Props> = ({ formState, formDispatch }) => {
-	const [{ }, globalDispatch] = useGlobalValue()
-
+const Login: React.FC<Props> = ({ form }) => {
+	const [, globalDispatch] = useGlobalValue()
 
 	async function submit(): Promise<void> {
-		formDispatch({ type: 'SUBMITTING' })
+		const { status, user } = await ApiLogin(form.state.username, form.state.password)
 
-		const res = await fetch(process.env.REACT_APP_ENDPOINT + '/login', {
-			method: 'POST',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ username: formState.username, password: formState.password })
-		})
-		const status = res.status
-		const user = await res.json()
+		if (status == 401) // Not Found
+			return form.dispatch({ type: 'NOT_FOUND' })
 
-		switch (status) {
-			case 401: // Not Found
-				formDispatch({ type: 'NOT_FOUND' })
-				break;
-			case 409: //Unathorized
-				formDispatch({ type: 'PASS_CONFLICT' })
-				break;
-			case 200: // Ok
-				formDispatch({ type: 'GRANT_AUTH' })
-				successfulAuthentication(user)
-				break;
-			default:
-				break;
-		}
+		if (status == 409) // Unathorized
+			return form.dispatch({ type: 'PASS_CONFLICT' })
+
+		successAnimation(user) // Ok
 	}
 
-	function successfulAuthentication(user: User | any) {
+	function successAnimation(user: User | any) {
+		form.dispatch({ type: 'GRANT_AUTH' })
+
 		const authLogo = document.getElementById('authLogo')
 		authLogo?.classList.add('logo-anim')
 
-		const hideDelay = setTimeout(() => {
+		setTimeout(() => {
 			authLogo?.classList.add('logo-hide')
-			localStorage.setItem('_osUserAuthStatus', JSON.stringify({ isAuth: true }))
+			localStorage.setItem(
+				'_osUserAuthStatus',
+				JSON.stringify({ isAuth: true })
+			)
 
-			globalDispatch({ type: 'GRANT_AUTH', userId: user.Id })
-			clearTimeout(hideDelay)
+			return globalDispatch({ type: 'GRANT_AUTH', user: user })
 		}, 900)
 	}
 
@@ -60,8 +47,7 @@ const Login: React.FC<Props> = ({ formState, formDispatch }) => {
 			<AuthForm
 				withGoogle
 				submit={submit}
-				formState={formState}
-				formDispatch={formDispatch} />
+				form={form} />
 		</>
 	)
 }

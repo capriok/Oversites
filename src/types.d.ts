@@ -3,7 +3,7 @@ interface GlobalState {
 }
 
 type GlobalReducer =
-	| { type: 'GRANT_AUTH', userId: number }
+	| { type: 'GRANT_AUTH', user: User }
 	| { type: 'REVOKE_AUTH' }
 
 interface ContextProps {
@@ -23,16 +23,14 @@ interface AuthFormState {
 type AuthFormDispatch = Dispatch<AuthFormReducer>
 
 type AuthFormReducer =
-	| { type: 'RESET_FORM' }
-	| { type: 'TITLE', value: string }
-	| { type: 'USERNAME', value: string }
-	| { type: 'PASSWORD', value: string }
+	| { type: 'FIELDS', values: { username: string, password: string } }
 	| { type: 'SUBMITTING' }
 	| { type: 'GRANT_AUTH' }
+	| { type: 'NOT_FOUND' }
+	| { type: 'PASS_CONFLICT' }
 	| { type: 'USER_CREATED' }
 	| { type: 'NAME_CONFLICT' }
-	| { type: 'PASS_CONFLICT' }
-	| { type: 'NOT_FOUND' }
+	| { type: 'SET_FORM' }
 
 
 
@@ -51,18 +49,19 @@ type SearchFormReducer =
 	| { type: 'ACTIVE_RESULT_INC' }
 	| { type: 'ACTIVE_RESULT_DEC' }
 	| { type: 'RESET_ACTIVE_RESULT' }
-	| { type: 'RESET_FORM' }
+	| { type: 'SET_FORM' }
 
 
 interface User {
-	userId: number | null
+	id: number | null
 	isAuth: boolean
+	lastLogin: string
 	details: UserDeatils
 }
 
 interface UserDetails {
 	username: string
-	join_date: string
+	joinDate: string
 }
 
 interface BufferObject {

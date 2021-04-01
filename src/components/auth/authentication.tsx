@@ -1,7 +1,8 @@
 import React, { useEffect, useReducer } from 'react'
-import { RouteComponentProps, Route, Redirect } from 'react-router-dom'
-import { useGlobalValue } from 'state/state'
-import { authFormState, authFormReducer } from 'state/authReducer/reducer'
+import { RouteComponentProps, Route, } from 'react-router-dom'
+import { useGlobalValue } from 'state/global-context/state'
+import { authFormReducer } from 'state/authentication-reducer/reducer'
+import { authFormState } from 'state/authentication-reducer/state'
 
 import AuthNav from './auth-nav'
 import Login from './routes/login'
@@ -21,9 +22,8 @@ const Authentication: React.FC<Props> = ({ props }) => {
 	}, [isAuth])
 
 	useEffect(() => {
-		dispatch({ type: 'TITLE', value: window.location.pathname.split('/')[1] })
+		dispatch({ type: 'SET_FORM' })
 	}, [props])
-
 
 	const isAtLogin = props.location.pathname === '/login'
 	const isAtRegister = props.location.pathname === '/register'
@@ -35,10 +35,10 @@ const Authentication: React.FC<Props> = ({ props }) => {
 			<div className="credentials">
 				<AuthNav props={props} />
 				<Route exact path="/login" render={() => (
-					<Login formState={state} formDispatch={dispatch} />
+					<Login form={{ state, dispatch }} />
 				)} />
 				<Route exact path="/register" render={() => (
-					<Register formState={state} formDispatch={dispatch} />
+					<Register form={{ state, dispatch }} />
 				)} />
 			</div>
 		</>

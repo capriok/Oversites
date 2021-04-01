@@ -1,5 +1,5 @@
 import React from 'react'
-import { useGlobalValue } from 'state/state'
+import { useGlobalValue } from 'state/global-context/state'
 import { Link, RouteComponentProps } from 'react-router-dom'
 import Nav from '../common/navbar'
 

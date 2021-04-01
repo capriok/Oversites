@@ -1,46 +1,32 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { Register as ApiRegister } from '../../../api/os'
 
 import AuthForm from '../auth-form'
 
 interface Props {
-	formState: AuthFormState
-	formDispatch: AuthFormDispatch
+	form: {
+		state: AuthFormState
+		dispatch: AuthFormDispatch
+	}
 }
 
-const Register: React.FC<Props> = ({ formState, formDispatch }) => {
-
+const Register: React.FC<Props> = ({ form }) => {
 	async function submit(): Promise<void> {
-		formDispatch({ type: 'SUBMITTING' })
+		const { status } = await ApiRegister(form.state.username, form.state.password)
 
-		const res = await fetch(process.env.REACT_APP_ENDPOINT + '/register', {
-			method: 'POST',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ username: formState.username, password: formState.password })
-		})
-		const status = res.status
+		if (status == 409) // Unathorized
+			return form.dispatch({ type: 'NAME_CONFLICT' })
 
-		switch (status) {
-			case 409: // Name Conflict
-				formDispatch({ type: 'NAME_CONFLICT' })
-				break;
-			case 201: // Created
-				formDispatch({ type: 'USER_CREATED' })
-				break;
-			default:
-				break;
-		}
+		form.dispatch({ type: 'USER_CREATED' }) // Created
 	}
 
 	return (
 		<>
 			<AuthForm
+				withReqs
 				submit={submit}
-				formState={formState}
-				formDispatch={formDispatch} />
-		</>
+				form={form} />
+z		</>
 	)
 }
 

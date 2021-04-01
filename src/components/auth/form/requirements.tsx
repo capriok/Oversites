@@ -17,7 +17,7 @@ const FormRequirements: React.FC<Props> = ({ username, password }) => {
 			: ''
 	}
 
-	function passwordeCheck() {
+	function passwordCheck() {
 		return password.length >= 3
 			? ' label-check-show'
 			: ''
@@ -37,7 +37,7 @@ const FormRequirements: React.FC<Props> = ({ username, password }) => {
 				</ul>
 				<div className="req-label">
 					<p>Password</p>
-					<span id="passwordCheck" className={'label-check' + passwordeCheck()}>&#x2714;</span>
+					<span id="passwordCheck" className={'label-check' + passwordCheck()}>&#x2714;</span>
 				</div>
 				<ul>
 					<li>3 Charatcer Minimum</li>

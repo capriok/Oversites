@@ -1,9 +1,4 @@
-export const searchFormState: SearchFormState = {
-	searchValue: "",
-	resultsOpen: false,
-	resultsList: [],
-	activeResult: -1
-}
+import { searchFormState } from './state'
 
 export const searchFormReducer = (state: SearchFormState, action: SearchFormReducer): SearchFormState => {
 	switch (action.type) {
@@ -52,7 +47,7 @@ export const searchFormReducer = (state: SearchFormState, action: SearchFormRedu
 				...state,
 				activeResult: -1
 			}
-		case "RESET_FORM":
+		case "SET_FORM":
 			return {
 				...searchFormState,
 			}

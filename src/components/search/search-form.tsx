@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer } from 'react'
-import { searchFormState, searchFormReducer } from "state/searchReducer/reducer";
+import { searchFormReducer } from "state/search-reducer/reducer";
+import { searchFormState } from "state/search-reducer/state";
 
 import 'styles/search/search-form.scss'
 import FormResults from './form-results'
@@ -23,7 +24,7 @@ const SearchForm: React.FC<Props> = ({
 		const search = str.toLowerCase()
 
 		if (search.length < 1) {
-			return dispatch({ type: 'RESET_FORM' })
+			return dispatch({ type: 'SET_FORM' })
 		} else {
 			dispatch({ type: 'SET_VALUE', value: search })
 		}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Redirect, Switch, } from 'react-router-dom'
-import { useGlobalValue } from 'state/state'
+import { useGlobalValue } from 'state/global-context/state'
 
 import Layout from 'components/root/layout'
 import HomeNav from 'components/root/home-nav'

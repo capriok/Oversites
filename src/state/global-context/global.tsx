@@ -1,10 +1,11 @@
 export const globalState: GlobalState = {
 	user: {
-		userId: null,
+		id: null,
 		isAuth: false,
+		lastLogin: '',
 		details: {
 			username: '',
-			join_date: ''
+			joinDate: ''
 		}
 	}
 };
@@ -36,7 +37,7 @@ async function verifyToken() {
 			console.log(user);
 			return globalState.user = {
 				...globalState.user,
-				userId: user.Id,
+				id: user.id,
 				isAuth: true
 			}
 		default:
