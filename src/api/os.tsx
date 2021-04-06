@@ -42,7 +42,7 @@ export async function RefreshToken() {
 	}
 }
 
-export async function RevokeToken(id) {
+export async function RevokeToken(userId) {
 	await fetch(
 		basePath + '/authentication',
 		{
@@ -51,13 +51,7 @@ export async function RevokeToken(id) {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ id })
+			body: JSON.stringify({ userId })
 		}
-	).finally(() => {
-		localStorage.setItem(
-			'_osUserAuthStatus',
-			JSON.stringify({ isAuth: false })
-		);
-		window.location.href = "/";
-	})
+	)
 }

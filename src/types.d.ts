@@ -53,7 +53,7 @@ type SearchFormReducer =
 
 
 interface User {
-	id: number | null
+	userId: number | null
 	isAuth: boolean
 	lastLogin: string
 	details: UserDeatils

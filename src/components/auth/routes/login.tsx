@@ -33,11 +33,6 @@ const Login: React.FC<Props> = ({ form }) => {
 
 		setTimeout(() => {
 			authLogo?.classList.add('logo-hide')
-			localStorage.setItem(
-				'_osUserAuthStatus',
-				JSON.stringify({ isAuth: true })
-			)
-
 			return globalDispatch({ type: 'GRANT_AUTH', user: user })
 		}, 900)
 	}

@@ -1,4 +1,4 @@
-import { globalState, globalState as initialState } from './global'
+import { globalState as initialState } from './global'
 import { RevokeToken } from '../../api/os'
 
 export function globalReducer(state: GlobalState, action: GlobalReducer): GlobalState {
@@ -8,13 +8,13 @@ export function globalReducer(state: GlobalState, action: GlobalReducer): Global
 				...state,
 				user: {
 					...state.user,
-					id: action.user.id,
+					userId: action.user.userId,
 					lastLogin: action.user.lastLogin,
 					isAuth: true
 				}
 			}
 		case "REVOKE_AUTH":
-			RevokeToken(globalState.user.id)
+			RevokeToken(state.user.userId)
 			return {
 				...initialState
 			}

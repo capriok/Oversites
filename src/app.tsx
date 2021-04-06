@@ -11,9 +11,16 @@ import "styles/root/app.scss"
 import Compose from 'components/compose/compose'
 import Search from 'components/search/search'
 import Authentication from 'components/auth/authentication'
+import useAuthStatus from 'hooks/useAuthStatus'
+import Loader from 'components/common/loader'
 
 const App: React.FC = () => {
   const [{ user: { isAuth } }] = useGlobalValue()
+
+  const { status, loading } = useAuthStatus()
+
+  console.log('LOADING', loading);
+  console.log('STATUS', status);
 
   const ProtectedRoute = ({ path, component: Component }:
     { path: string, component: React.FC<any> }) => (
@@ -26,6 +33,12 @@ const App: React.FC = () => {
             : <Redirect to={window.location.pathname} />
       }
     </>
+  )
+
+  if (loading) return (
+    <Layout>
+      <div style={{ height: '100vh', marginTop: '50%' }}><Loader /></div>
+    </Layout>
   )
 
   return (
@@ -42,6 +55,7 @@ const App: React.FC = () => {
             <Search />
           )} />
           <ProtectedRoute path="/compose" component={Compose} />
+
           <Route path='/' render={(props) => (
             <Authentication props={props} />
           )} />
