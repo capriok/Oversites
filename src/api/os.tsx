@@ -55,3 +55,26 @@ export async function RevokeToken(userId) {
 		}
 	)
 }
+
+
+export async function FetchOversites(userId, searchResult) {
+	const res = await fetch(
+		process.env.REACT_APP_ENDPOINT + '/oversites' || '',
+		{
+			method: 'GET',
+			credentials: 'include',
+			// body: JSON.stringify(searchResult)
+		}
+	)
+
+	if (res.status !== 200) {
+		await RevokeToken(userId);
+	}
+
+	const data = await res.json()
+
+	return {
+		status: res.status,
+		oversites: data
+	}
+}

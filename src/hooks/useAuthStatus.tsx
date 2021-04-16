@@ -19,42 +19,29 @@ function useAuthStatus() {
 
 	useEffect(() => {
 		if (!hasRefreshCookie) {
-			console.log("No Cookie");
 			setLoading(false)
 			return
 		}
-		console.log("Has Cookie");
-		CheckRefreshToken()
-	}, [])
 
-	async function CheckRefreshToken() {
-		console.log("Checking Cookie");
-		const res = await RefreshToken()
+		(async () => {
+			const res = await RefreshToken()
+			const { status, user } = res
 
-		const { status, user } = res
+			if (status !== 200) {
+				globalDispatch({ type: 'REVOKE_AUTH' })
+			}
 
-		if (status !== 200) {
-			console.log("Unauthorized");
 			globalDispatch({
 				type: 'GRANT_AUTH',
 				user: {
 					...globalStateUser,
-					userId: null,
-					isAuth: false
+					userId: user.userId,
+					isAuth: true
 				}
 			})
-		}
+		})()
 
-		console.log("Authing User");
-		globalDispatch({
-			type: 'GRANT_AUTH',
-			user: {
-				...globalStateUser,
-				userId: user.userId,
-				isAuth: true
-			}
-		})
-	}
+	}, [])
 
 	return {
 		status: authStatus,

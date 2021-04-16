@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react'
-import { RouteComponentProps, Route, } from 'react-router-dom'
+import { RouteComponentProps, Route, Redirect, } from 'react-router-dom'
 import { useGlobalValue } from 'state/global-context/state'
 import { authFormReducer } from 'state/authentication-reducer/reducer'
 import { authFormState } from 'state/authentication-reducer/state'
@@ -18,10 +18,6 @@ const Authentication: React.FC<Props> = ({ props }) => {
 	const [state, dispatch] = useReducer(authFormReducer, authFormState)
 
 	useEffect(() => {
-		if (isAuth) props.history.push('/')
-	}, [isAuth])
-
-	useEffect(() => {
 		dispatch({ type: 'SET_FORM' })
 	}, [props])
 
@@ -30,16 +26,24 @@ const Authentication: React.FC<Props> = ({ props }) => {
 
 	if (!isAtLogin && !isAtRegister) return <></>
 
+	const NonAuthRoute = ({ path, component: Component }) => (
+		<>
+			{
+				<Route exact path={path} render={() => (
+					!isAuth
+						? <Component form={{ state, dispatch }} />
+						: <Redirect to="/" />
+				)} />
+			}
+		</>
+	)
+
 	return (
 		<>
 			<div className="credentials">
 				<AuthNav props={props} />
-				<Route exact path="/login" render={() => (
-					<Login form={{ state, dispatch }} />
-				)} />
-				<Route exact path="/register" render={() => (
-					<Register form={{ state, dispatch }} />
-				)} />
+				<NonAuthRoute path="/login" component={Login} />
+				<NonAuthRoute path="/register" component={Register} />
 			</div>
 		</>
 	)

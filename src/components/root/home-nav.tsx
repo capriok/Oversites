@@ -6,20 +6,19 @@ import Nav from '../common/navbar'
 import 'styles/root/home-nav.scss'
 
 interface Props {
-	props: RouteComponentProps
 }
 
-const HomeNav: React.FC<Props> = ({ props }) => {
+const HomeNav: React.FC<Props> = ({ }) => {
 	const [{ user: { isAuth } }, dispatch] = useGlobalValue()
 
-	const isAtLogin = props.location.pathname === '/login'
-	const isAtRegister = props.location.pathname === '/register'
+	const isAtLogin = window.location.pathname === '/login'
+	const isAtRegister = window.location.pathname === '/register'
 
 	if (isAtLogin || isAtRegister) return <></>
 
 	return (
 		<Nav className="home-nav">
-			<header><a href="/"><h1>Oversites.</h1></a></header>
+			<header><Link to="/"><h1>Oversites.</h1></Link></header>
 			<div className="links">
 				{isAuth
 					? <>

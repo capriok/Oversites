@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import { FetchOversites, RevokeToken } from '../../api/os'
+
 import Loader from 'components/common/loader'
 
 import 'styles/search/search-result.scss'
+import { useGlobalValue } from 'state/global-context/state'
 
 interface Props {
 	searchResult: string
@@ -17,11 +20,11 @@ const SearchResult: React.FC<Props> = ({
 
 	const [oversites, setOversites] = useState<Oversite[]>([])
 
+	const [{ user }, dispatch] = useGlobalValue()
+
 	useEffect(() => {
 		(async () => {
-			const res = await fetch(process.env.REACT_APP_ENDPOINT + '/oversites' || '', { credentials: 'include' })
-			const data = await res.json()
-			let oversites = data
+			const { status, oversites } = await FetchOversites(user.userId, searchResult)
 			console.log({ Oversites: oversites })
 
 			setOversites(oversites)
