@@ -37,7 +37,7 @@ const App: React.FC = () => {
 
   if (loading) return (
     <Layout>
-      <div style={{ height: '100vh', marginTop: '50%' }}><Loader /></div>
+      <div style={{ position: 'absolute', top: '50vh', left: '50vw' }}><Loader /></div>
     </Layout>
   )
 
@@ -48,12 +48,13 @@ const App: React.FC = () => {
           <Route path='/' render={(props) => (
             <HomeNav props={props} />
           )} />
-          <Route exact path='/' render={() => (
+          <Route exact path='/' render={(props) => (
             <Landing />
           )} />
           <Route exact path='/search' render={() => (
             <Search />
           )} />
+
           <ProtectedRoute path="/compose" component={Compose} />
 
           <Route path='/' render={(props) => (
