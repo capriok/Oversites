@@ -26,24 +26,16 @@ const Authentication: React.FC<Props> = ({ props }) => {
 
 	if (!isAtLogin && !isAtRegister) return <></>
 
-	const NonAuthRoute = ({ path, component: Component }) => (
-		<>
-			{
-				<Route exact path={path} render={() => (
-					!isAuth
-						? <Component form={{ state, dispatch }} />
-						: <Redirect to="/" />
-				)} />
-			}
-		</>
-	)
-
 	return (
 		<>
 			<div className="credentials">
 				<AuthNav props={props} />
-				<NonAuthRoute path="/login" component={Login} />
-				<NonAuthRoute path="/register" component={Register} />
+				{!isAuth
+					? <Route exact path="/login" render={() => <Login form={{ state, dispatch }} />} />
+					: <Redirect to="/" />}
+				{!isAuth
+					? <Route exact path="/register" render={() => <Register form={{ state, dispatch }} />} />
+					: <Redirect to="/" />}
 			</div>
 		</>
 	)

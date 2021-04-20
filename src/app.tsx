@@ -15,12 +15,13 @@ import useAuthStatus from 'hooks/useAuthStatus'
 import Loader from 'components/common/loader'
 
 const App: React.FC = () => {
-  const { status, loading } = useAuthStatus()
+  const [{ user, user: isAuth }] = useGlobalValue()
+  const { loading } = useAuthStatus()
 
   const ProtectedRoute = ({ path, component: Component }) => (
     <>
       {
-        status
+        isAuth
           ? <Route exact path={path} render={(props) => <Component props={props} />} />
           : window.location.pathname === path
             ? <Redirect to="/login" />
@@ -28,6 +29,12 @@ const App: React.FC = () => {
       }
     </>
   )
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      user.isAuth && console.log({ Local: user })
+    }, 500)
+  }, [loading])
 
   if (loading) return (
     <Layout>

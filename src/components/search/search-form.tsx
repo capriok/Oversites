@@ -56,6 +56,7 @@ const SearchForm: React.FC<Props> = ({
 				type="text"
 				id="formInput"
 				className="form-input"
+				autoComplete="off"
 				value={searchValue}
 				placeholder="Find a website in our database."
 				onClick={() => resultsList.length > 1 && dispatch({ type: 'TOGGLE_RESULTS', value: true })}

@@ -6,4 +6,19 @@
 	flex-direction: column;
 	max-width: 1000px;
 	margin: 0 auto;
+
+	.recent-os-list-title {
+		cursor: default;
+		text-align: left;
+		width: 100%;
+		color: $dark-grey;
+		p {
+			font-weight: bold;
+		}
+	}
+	.with-top-line {
+		margin-top: 50px;
+		padding-top: 50px;
+		border-top: 3px solid $light-grey;
+	}
 }

@@ -1,20 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import { uniq } from 'lodash'
+import osApi from '../../api/os'
 
 import 'styles/search/search.scss'
 
 import websites from 'assets/data/websites.json'
 import SearchForm from 'components/search/search-form'
 import SearchResult from 'components/search/search-result'
+import { useGlobalValue } from 'state/global-context/state'
+import OversiteList from '../oversite/oversite-list'
 
 interface Props {
 }
 
 const Search: React.FC<Props> = () => {
 
+	const [{ user: id }] = useGlobalValue()
+
 	const [websiteList, setWebsiteList] = useState<string[]>([])
 	const [searchResult, setSearchResult] = useState<string>('')
-	const [resultLoading, setResultLoading] = useState<boolean>(false)
+	const [searchResultOsListLoading, setSearchResultOsListLoading] = useState<boolean>(false)
+
+	const [recentOsList, setRecentOsList] = useState<Oversite[]>([])
+	const [recentOsListLoading, setRecentOsListLoading] = useState<boolean>(true)
 
 	function parseLocalDataset(): string[] {
 		let arr: string[] = []
@@ -28,10 +36,29 @@ const Search: React.FC<Props> = () => {
 		return uniq(arr)
 	}
 
+	async function FetchRecentOversites() {
+		const { oversites } = await osApi.FetchRecentlyFoundedOversites(id)
+		console.log({ Oversites: oversites });
+
+		oversites.sort((a, b) => {
+			const levels = ['No Effect', 'Low', 'Moderate', 'High', 'Critical']
+
+			let aSev = levels.findIndex(level => level === a.severity) + 1
+			let bSev = levels.findIndex(level => level === b.severity) + 1
+
+			return bSev - aSev
+		})
+
+		setRecentOsListLoading(false)
+		setRecentOsList(oversites)
+	}
+
 	useEffect(() => {
 		const siteList = parseLocalDataset()
 		console.log({ Websites: siteList })
 		setWebsiteList(siteList);
+
+		FetchRecentOversites()
 	}, [])
 
 	return (
@@ -40,12 +67,19 @@ const Search: React.FC<Props> = () => {
 			<SearchForm
 				websiteList={websiteList}
 				setSearchResult={setSearchResult}
-				setResultLoading={setResultLoading} />
+				setResultLoading={setSearchResultOsListLoading} />
+
 			{searchResult &&
 				<SearchResult
 					searchResult={searchResult}
-					resultLoading={resultLoading}
-					setResultLoading={setResultLoading} />}
+					resultLoading={searchResultOsListLoading}
+					setResultLoading={setSearchResultOsListLoading} />
+			}
+
+			<div className={`recent-os-list-title ${searchResult && !searchResultOsListLoading ? ' with-top-line' : ''}`}>
+				<p>Recently Found</p>
+			</div>
+			<OversiteList loading={recentOsListLoading} oversites={recentOsList} />
 		</div>
 	)
 }

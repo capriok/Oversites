@@ -3,7 +3,7 @@ interface GlobalState {
 }
 
 type GlobalReducer =
-	| { type: 'GRANT_AUTH', user: User }
+	| { type: 'GRANT_AUTH', user: UserModel }
 	| { type: 'REVOKE_AUTH' }
 
 interface ContextProps {
@@ -53,15 +53,24 @@ type SearchFormReducer =
 
 
 interface User {
-	userId: number | null
+	id: number | null
 	isAuth: boolean
 	lastLogin: string
-	details: UserDeatils
+	details: UserDetails
+}
+
+interface UserModel {
+	id: number | null
+	lastLogin: string
+	username: string
+	joinDate: string
+	domains: string[]
 }
 
 interface UserDetails {
 	username: string
 	joinDate: string
+	domains: string[]
 }
 
 interface BufferObject {
@@ -70,11 +79,17 @@ interface BufferObject {
 }
 
 interface Oversite {
-	site: string
-	uid: number
+	id: number
 	title: string
-	serverity: number
+	domain: string
+	severity: string
 	description: string
 	category: string[]
-	proof: object[]
+	private: boolean
+	sights: Sight[]
+}
+
+interface Sight {
+	data: any
+	oversiteId: number
 }

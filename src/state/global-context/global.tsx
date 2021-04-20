@@ -1,11 +1,12 @@
 export const globalState: GlobalState = {
 	user: {
-		userId: null,
+		id: null,
 		isAuth: false,
 		lastLogin: '',
 		details: {
 			username: '',
-			joinDate: ''
+			joinDate: '',
+			domains: []
 		}
 	}
 };

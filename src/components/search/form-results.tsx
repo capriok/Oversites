@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import useOutsideClick from 'utils/useOutsideClick'
+import useOutsideClick from 'hooks/useOutsideClick'
 
 interface Props {
 	state: SearchFormState

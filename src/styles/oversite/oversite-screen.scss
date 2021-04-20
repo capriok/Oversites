@@ -1,0 +1,49 @@
+@import "styles/root/index.scss";
+
+.public-access,
+.private-access {
+	@include flex;
+	justify-content: flex-start;
+	justify-content: space-between;
+	P {
+		label {
+			font-weight: bold;
+		}
+	}
+	div {
+		@include flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: flex-end;
+		&:last-child {
+			align-items: flex-end;
+		}
+		button {
+			margin-top: 20px;
+		}
+	}
+	.panel {
+		cursor: pointer;
+		user-select: none;
+		font-weight: bold;
+		@include flex;
+		border-radius: 10px;
+		flex: 1;
+		height: 100%;
+		background-color: rgba(141, 141, 141, 0.15);
+		transition: 0.2s;
+		&:first-child {
+			margin-right: 10px;
+		}
+		&:hover {
+			background-color: rgba(141, 141, 141, 0.25);
+		}
+	}
+	.ownership {
+		cursor: default;
+		text-decoration: underline;
+	}
+}
+.private-access {
+	height: 100px;
+}

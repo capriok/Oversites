@@ -1,6 +1,6 @@
 import React from 'react'
 import { useGlobalValue } from 'state/global-context/state'
-import { Login as ApiLogin } from '../../../api/os'
+import osApi from '../../../api/os'
 import AuthForm from '../auth-form'
 
 interface Props {
@@ -14,7 +14,7 @@ const Login: React.FC<Props> = ({ form }) => {
 	const [, globalDispatch] = useGlobalValue()
 
 	async function submit(): Promise<void> {
-		const { status, user } = await ApiLogin(form.state.username, form.state.password)
+		const { status, user } = await osApi.Login(form.state.username, form.state.password)
 
 		if (status == 401) // Not Found
 			return form.dispatch({ type: 'NOT_FOUND' })
@@ -23,9 +23,11 @@ const Login: React.FC<Props> = ({ form }) => {
 			return form.dispatch({ type: 'PASS_CONFLICT' })
 
 		successAnimation(user) // Ok
+		console.log({ AuthedUser: user })
+
 	}
 
-	function successAnimation(user: User | any) {
+	function successAnimation(user: UserModel) {
 		form.dispatch({ type: 'GRANT_AUTH' })
 
 		const authLogo = document.getElementById('authLogo')

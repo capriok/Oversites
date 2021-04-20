@@ -1,0 +1,59 @@
+@import "styles/root/index.scss";
+
+.oversite-item {
+	width: 100%;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: -1px 2px 5px 5px $off-white;
+
+	&:not(:last-child) {
+		margin-bottom: 20px;
+		padding-bottom: 20px;
+	}
+	.item-head,
+	.item-body,
+	.item-more-body {
+		cursor: default;
+		@include flex;
+		justify-content: space-between;
+		P {
+			label[data-severity="Critical"] {
+				color: red;
+				animation: Critical 1s infinite;
+			}
+			label[data-severity="High"] {
+				color: rgb(230, 61, 0);
+			}
+			label[data-severity="Moderate"] {
+				color: darkorange;
+			}
+			label[data-severity="Low"] {
+				color: steelblue;
+			}
+			label[data-severity="No Effect"] {
+				color: green;
+			}
+			label {
+				font-weight: bold;
+			}
+		}
+	}
+
+	.item-more-body {
+		padding-top: 20px;
+		margin-top: 20px;
+		border-top: 2px solid $plight;
+	}
+}
+
+.fade {
+	box-shadow: inset;
+	background-color: rgb(245, 245, 245);
+	filter: blur(1.25px);
+}
+
+@keyframes Critical {
+	50% {
+		color: rgb(160, 0, 27);
+	}
+}
