@@ -6,7 +6,7 @@ import AuthForm from '../auth-form'
 interface Props {
 	form: {
 		state: AuthFormState
-		dispatch: AuthFormDispatch
+		dispatch: React.Dispatch<AuthFormReducer>
 	}
 }
 

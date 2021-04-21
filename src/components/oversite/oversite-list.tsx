@@ -16,7 +16,7 @@ const OversiteList: React.FC<Props> = ({ loading, oversites }) => {
 	return (
 		<>
 			{loading
-				? <><br /><Loader /></>
+				? <div className="result-loader"><Loader /></div>
 				: <>
 					{oversites.length > 0
 						? oversites.map((os, i) => (

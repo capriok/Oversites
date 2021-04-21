@@ -37,10 +37,15 @@ const SearchForm: React.FC<Props> = ({
 			}
 		})
 
-		dispatch({ type: 'SET_RESULTS', value: tempList.slice(0, 10) })
+		let list = tempList.length > 0 ? tempList.slice(0, 10) : [search]
+
+		dispatch({ type: 'SET_RESULTS', value: list })
 	}
 
-	function selectResult(value: string): void {
+	function selectResult(val: string): void {
+		let value = val ? val : searchValue
+		if (!value) return
+
 		dispatch({ type: 'SELECT_RESULT', value: value })
 		setResultLoading(true)
 		setSearchResult(value)
@@ -51,7 +56,7 @@ const SearchForm: React.FC<Props> = ({
 	}, [resultsList])
 
 	return (
-		<div className="search-form">
+		<div className="search-form" >
 			<input
 				type="text"
 				id="formInput"
@@ -62,9 +67,9 @@ const SearchForm: React.FC<Props> = ({
 				onClick={() => resultsList.length > 1 && dispatch({ type: 'TOGGLE_RESULTS', value: true })}
 				onChange={(e) => findSearchValue(e.target.value)} />
 			<FormResults
-				selectResult={selectResult}
 				state={state}
 				dispatch={dispatch}
+				selectResult={selectResult}
 			/>
 		</div>
 	)

@@ -11,7 +11,7 @@ import GoogleLog from './form/google-login'
 interface Props {
 	form: {
 		state: AuthFormState
-		dispatch: AuthFormDispatch
+		dispatch: React.Dispatch<AuthFormReducer>
 	}
 	submit: () => Promise<void>
 	withGoogle?: boolean
@@ -65,7 +65,7 @@ const AuthForm: React.FC<Props> = ({ form, submit, withGoogle, withReqs }) => {
 			onSubmit={(e) => {
 				e.preventDefault()
 				form.dispatch({ type: 'SUBMITTING' })
-				submit()
+				submit().finally(() => dispatch({ type: 'SET_FORM' }))
 			}}>
 			<h1 className="form-title">{state.title}</h1>
 			<div className="image-cont">

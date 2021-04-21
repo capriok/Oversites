@@ -6,7 +6,7 @@ import AuthForm from '../auth-form'
 interface Props {
 	form: {
 		state: AuthFormState
-		dispatch: AuthFormDispatch
+		dispatch: React.Dispatch<AuthFormReducer>
 	}
 }
 
@@ -27,7 +27,7 @@ const Login: React.FC<Props> = ({ form }) => {
 
 	}
 
-	function successAnimation(user: UserModel) {
+	function successAnimation(user: User) {
 		form.dispatch({ type: 'GRANT_AUTH' })
 
 		const authLogo = document.getElementById('authLogo')

@@ -76,7 +76,7 @@ const Search: React.FC<Props> = () => {
 					setResultLoading={setSearchResultOsListLoading} />
 			}
 
-			<div className={`recent-os-list-title ${searchResult && !searchResultOsListLoading ? ' with-top-line' : ''}`}>
+			<div className="recent-os-list-title">
 				<p>Recently Found</p>
 			</div>
 			<OversiteList loading={recentOsListLoading} oversites={recentOsList} />

@@ -13,7 +13,7 @@ const FormResults: React.FC<Props> = ({
 	selectResult
 }) => {
 
-	const { resultsOpen, resultsList, activeResult } = state
+	const { searchValue, resultsOpen, resultsList, activeResult } = state
 
 	const resultsRef: any = useRef()
 	useOutsideClick(resultsRef, () => {
@@ -25,17 +25,16 @@ const FormResults: React.FC<Props> = ({
 
 	useEffect(() => {
 		document.addEventListener('keydown', (e: KeyboardEvent): void => {
-			const DOMResult = document.getElementById('activeResult')
-			const DOMInput = document.getElementById('formInput')
-
 			switch (e.code) {
 				case 'ArrowUp':
+					e.preventDefault()
 					return dispatch({ type: 'ACTIVE_RESULT_DEC' })
 				case 'ArrowDown':
-					DOMInput?.blur()
+					e.preventDefault()
+					document.getElementById('formInput')?.blur()
 					return dispatch({ type: 'ACTIVE_RESULT_INC' })
 				case 'Enter':
-					return selectResult(DOMResult?.textContent || '')
+					return selectResult(document.getElementById('activeResult')?.textContent || '')
 				case 'Escape':
 					return dispatch({ type: 'TOGGLE_RESULTS', value: false })
 				default:
@@ -45,6 +44,17 @@ const FormResults: React.FC<Props> = ({
 
 		return () => document.removeEventListener('keydown', () => dispatch({ type: 'RESET_ACTIVE_RESULT' }))
 	}, [])
+
+	useEffect(() => {
+		document.addEventListener('keydown', (e: KeyboardEvent): void => {
+			switch (e.code) {
+				case 'Enter':
+					if (searchValue && resultsOpen) {
+						return selectResult(searchValue)
+					}
+			}
+		}, { once: true })
+	}, [state.searchValue])
 
 	useEffect(() => {
 		const DOMInput = document.getElementById('formInput')

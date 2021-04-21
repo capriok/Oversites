@@ -43,7 +43,6 @@ const SearchResult: React.FC<Props> = ({
 			<h1 className="result-list-title">
 				{searchResult.charAt(0).toUpperCase() + searchResult.slice(1)}
 			</h1>
-			<br />
 
 			<OversiteList
 				loading={resultLoading}

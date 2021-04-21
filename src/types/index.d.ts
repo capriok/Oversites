@@ -1,9 +1,10 @@
+// GLOBAL
 interface GlobalState {
 	user: User
 }
 
 type GlobalReducer =
-	| { type: 'GRANT_AUTH', user: UserModel }
+	| { type: 'GRANT_AUTH', user: UserDTO }
 	| { type: 'REVOKE_AUTH' }
 
 interface ContextProps {
@@ -12,15 +13,13 @@ interface ContextProps {
 }
 
 
-
+// AUTH FORM
 interface AuthFormState {
 	title: string
 	username: string
 	password: string
 	submitting: boolean
 }
-
-type AuthFormDispatch = Dispatch<AuthFormReducer>
 
 type AuthFormReducer =
 	| { type: 'FIELDS', values: { username: string, password: string } }
@@ -33,7 +32,7 @@ type AuthFormReducer =
 	| { type: 'SET_FORM' }
 
 
-
+// SEARCH FORM
 type SearchFormState = {
 	searchValue: string
 	resultsOpen: boolean
@@ -50,46 +49,3 @@ type SearchFormReducer =
 	| { type: 'ACTIVE_RESULT_DEC' }
 	| { type: 'RESET_ACTIVE_RESULT' }
 	| { type: 'SET_FORM' }
-
-
-interface User {
-	id: number | null
-	isAuth: boolean
-	lastLogin: string
-	details: UserDetails
-}
-
-interface UserModel {
-	id: number | null
-	lastLogin: string
-	username: string
-	joinDate: string
-	domains: string[]
-}
-
-interface UserDetails {
-	username: string
-	joinDate: string
-	domains: string[]
-}
-
-interface BufferObject {
-	data: Array
-	type: string
-}
-
-interface Oversite {
-	id: number
-	title: string
-	domain: string
-	severity: string
-	description: string
-	category: string[]
-	private: boolean
-	sights: Sight[]
-}
-
-interface Sight {
-	data: any
-	oversiteId: number
-}

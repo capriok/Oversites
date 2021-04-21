@@ -14,9 +14,10 @@ const OversiteScreen: React.FC<Props> = ({ oversite }) => {
 	function checkDomainOwnership() {
 		if (!user.isAuth) return false
 
-		const userDomains: string[] = user.details.domains
+		const userDomains = user.details.domains
 		const osDomain = oversite.domain
-		const found = userDomains.find(uDomain => uDomain === osDomain)
+
+		const found = userDomains.find(uD => uD.domain === osDomain)
 		return found ? true : false
 	}
 
@@ -26,8 +27,8 @@ const OversiteScreen: React.FC<Props> = ({ oversite }) => {
 	const AccessContent = () => (
 		<>
 			<div>
-				<p><label>Category: </label>{oversite.category}</p>
-				<p><label>Descrption: </label>{oversite.description}</p>
+				<p><label>Category: </label>{oversite.details.category}</p>
+				<p><label>Descrption: </label>{oversite.details.description}</p>
 			</div>
 			<div>
 				{isOwner

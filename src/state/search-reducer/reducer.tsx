@@ -24,7 +24,7 @@ export const searchFormReducer = (state: SearchFormState, action: SearchFormRedu
 		case "SELECT_RESULT":
 			return {
 				...state,
-				searchValue: action.value,
+				resultsOpen: false,
 				resultsList: [],
 				activeResult: -1
 			}
