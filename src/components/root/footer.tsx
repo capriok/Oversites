@@ -10,11 +10,13 @@ const Footer: React.FC<Props> = ({ }) => {
 	return (
 		<footer className="footer">
 			<main>
-				<h1>Oversites.</h1>
-			</main>
-			<main>
-				<section>Content to be determined</section>
-				<section>{new Date().getFullYear()} | All rights reserved.</section>
+				<div>
+					<h1>Oversites.</h1>
+				</div>
+
+				<div>
+					<section>{new Date().getFullYear()} | All rights reserved.</section>
+				</div>
 			</main>
 		</footer>
 	)

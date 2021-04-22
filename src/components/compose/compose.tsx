@@ -13,11 +13,11 @@ interface File {
 
 const Compose: React.FC<Props> = ({ }) => {
 	const [form, setForm] = useState({
-		title: "",
-		site: "",
-		severity: "",
-		description: "",
-		category: "",
+		title: "new os 1",
+		site: "local.host",
+		severity: "No Effect",
+		description: "test test test",
+		category: "Functionality",
 	})
 	const [uploads, setUploads] = useState<File[]>([])
 	const filesRef = useRef<any>(null)

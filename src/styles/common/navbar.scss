@@ -4,7 +4,9 @@
 	@include flex;
 	justify-content: space-between;
 	user-select: none;
-	margin: 10px 40px;
+	margin: 10px auto;
+	padding: 0 20px;
+	max-width: 1400px;
 
 	.links {
 		@include flex;

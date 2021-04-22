@@ -32,7 +32,7 @@ const SearchResult: React.FC<Props> = ({
 				setResultLoading(false)
 			}, Math.floor(Math.random() * 3000))
 		})()
-	}, [searchResult])
+	}, [searchResult, resultLoading])
 
 	useEffect(() => {
 		if (searchResultOversites.length > 0) console.log({ Oversites: searchResultOversites })

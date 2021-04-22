@@ -20,38 +20,44 @@ const FormResults: React.FC<Props> = ({
 		const DOMinput = document.getElementById('formInput')
 
 		if (document.activeElement === DOMinput) return
-		if (resultsOpen) dispatch({ type: 'TOGGLE_RESULTS', value: false })
+		if (resultsOpen) {
+			dispatch({ type: 'TOGGLE_RESULTS', value: false })
+			RemoveKeyDownListener()
+		}
 	})
 
-	useEffect(() => {
-		document.addEventListener('keydown', (e: KeyboardEvent): void => {
-			switch (e.code) {
-				case 'ArrowUp':
-					e.preventDefault()
-					return dispatch({ type: 'ACTIVE_RESULT_DEC' })
-				case 'ArrowDown':
-					e.preventDefault()
-					document.getElementById('formInput')?.blur()
-					return dispatch({ type: 'ACTIVE_RESULT_INC' })
-				case 'Enter':
-					return selectResult(document.getElementById('activeResult')?.textContent || '')
-				case 'Escape':
-					return dispatch({ type: 'TOGGLE_RESULTS', value: false })
-				default:
-					break;
-			}
-		})
+	function handleGlobalKeydown(e: KeyboardEvent): void {
+		switch (e.code) {
+			case 'ArrowUp':
+				e.preventDefault()
+				return dispatch({ type: 'ACTIVE_RESULT_DEC' })
+			case 'ArrowDown':
+				e.preventDefault()
+				document.getElementById('formInput')?.blur()
+				return dispatch({ type: 'ACTIVE_RESULT_INC' })
+			case 'Enter':
+				return selectResult(document.getElementById('activeResult')?.textContent || '')
+			case 'Escape':
+				return dispatch({ type: 'TOGGLE_RESULTS', value: false })
+			default:
+				break;
+		}
+	}
 
-		return () => document.removeEventListener('keydown', () => dispatch({ type: 'RESET_ACTIVE_RESULT' }))
+	function RemoveKeyDownListener() {
+		document.removeEventListener('keydown', () => dispatch({ type: 'RESET_ACTIVE_RESULT' }))
+	}
+
+	useEffect(() => {
+		document.addEventListener('keydown', handleGlobalKeydown)
 	}, [])
 
 	useEffect(() => {
 		document.addEventListener('keydown', (e: KeyboardEvent): void => {
-			switch (e.code) {
-				case 'Enter':
-					if (searchValue && resultsOpen) {
-						return selectResult(searchValue)
-					}
+			if (e.code === 'Enter') {
+				if (searchValue && resultsOpen) {
+					return selectResult(searchValue)
+				}
 			}
 		}, { once: true })
 	}, [state.searchValue])
