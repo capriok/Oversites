@@ -2,7 +2,6 @@ import axios from 'axios'
 
 const Log = (msg) => console.log(`%c${msg}`, 'color: crimson; font-weight: bold;');
 
-
 const AxiosInstance = axios.create({
 	baseURL: process.env.REACT_APP_ENDPOINT,
 	withCredentials: true,
@@ -107,6 +106,27 @@ class osApi {
 		return {
 			status: res.status,
 			oversites: oversites
+		}
+	}
+
+	public async PostUserOversite(userId: number, formData: FormData):
+		Promise<{ status: number; data: any }> {
+
+		Log('Posting User Oversite')
+
+		const res = await AxiosInstance.post(
+			'oversite',
+			formData,
+			{ headers: { 'Content-Type': 'multipart/form-data' } }
+		)
+
+		if (res.status === 401) {
+			await this.RevokeToken(userId);
+		}
+
+		return {
+			status: res.status,
+			data: res.data
 		}
 	}
 }

@@ -1,4 +1,6 @@
 import React, { useState, useRef } from 'react'
+import { useGlobalValue } from 'state/global-context/state'
+import osApi from 'api/os'
 
 import 'styles/compose/compose.scss'
 
@@ -12,9 +14,11 @@ interface File {
 }
 
 const Compose: React.FC<Props> = ({ }) => {
+	const [{ user }] = useGlobalValue()
+
 	const [form, setForm] = useState({
 		title: "new os 1",
-		site: "local.host",
+		domain: "local.host",
 		severity: "No Effect",
 		description: "test test test",
 		category: "Functionality",
@@ -22,7 +26,7 @@ const Compose: React.FC<Props> = ({ }) => {
 	const [uploads, setUploads] = useState<File[]>([])
 	const filesRef = useRef<any>(null)
 
-	async function filesToState(e) {
+	async function FilesToState(e) {
 		const files: any = Array.from(e.target.files)
 
 		if (e.target.files) {
@@ -48,33 +52,26 @@ const Compose: React.FC<Props> = ({ }) => {
 		}
 	}
 
-	function postOversite() {
+	async function PostOversite() {
 		let formData = new FormData()
 
-		formData.append('uid', '17')
+		formData.append('id', user.id)
 		formData.append('title', form.title)
-		formData.append('site', form.site)
+		formData.append('domain', form.domain)
 		formData.append('severity', form.severity)
-		formData.append('uploads', filesRef.current)
 		formData.append('category', form.category)
+		formData.append('sights', filesRef.current)
 
-		fetch(process.env.REACT_APP_ENDPOINT + '/oversite' || '',
-			{
-				method: 'POST',
-				credentials: 'include',
-				headers: {
-					'Content-Type': 'multipart/form-data'
-				},
-				body: formData
-			}
-		).then(() => {
-			// setUploads([])
-		}).catch(err => console.log(err))
+		for (var pair of formData.entries()) {
+			console.log(pair[0] + ', ' + pair[1])
+		}
+
+		const { status, data } = await osApi.PostUserOversite(user.userId, formData)
 	}
 
-	function checkForm() {
+	function CheckForm() {
 		for (const field in form) {
-			if (form['site'].slice(form['site'].length - 4) !== '.com') return true
+			if (form['domain'].slice(form['domain'].length - 4) !== '.com') return true
 			if (form[field] === '') return true
 		}
 	}
@@ -86,16 +83,16 @@ const Compose: React.FC<Props> = ({ }) => {
 				<tbody>
 					<tr>
 						<td><p className="row-label">Title</p></td>
-						<td><input type="text" onChange={(e) => setForm({ ...form, title: e.target.value })} /></td>
+						<td><input value={form.title} type="text" onChange={(e) => setForm({ ...form, title: e.target.value })} /></td>
 					</tr>
 					<tr>
 						<td><p className="row-label">Website</p></td>
-						<td><input type="text" onChange={(e) => setForm({ ...form, site: e.target.value })} /></td>
+						<td><input value={form.domain} type="text" onChange={(e) => setForm({ ...form, domain: e.target.value })} /></td>
 					</tr>
 					<tr>
 						<td><p className="row-label">Severity</p></td>
 						<td>
-							<select name="Severity" onChange={(e) => setForm({ ...form, severity: e.target.value })}>
+							<select value={form.severity} name="Severity" onChange={(e) => setForm({ ...form, severity: e.target.value })}>
 								<option value="" style={{ display: 'none' }} />
 								<option value="Critical">Critical</option>
 								<option value="High">High</option>
@@ -109,6 +106,7 @@ const Compose: React.FC<Props> = ({ }) => {
 						<td><p className="row-label">Description</p></td>
 						<td>
 							<textarea
+								value={form.description}
 								rows={7}
 								placeholder="Do your best to explain the problem and include steps to recreate the problem."
 								onChange={(e) => setForm({ ...form, description: e.target.value })} />
@@ -117,7 +115,7 @@ const Compose: React.FC<Props> = ({ }) => {
 					<tr>
 						<td><p className="row-label">Category</p></td>
 						<td>
-							<select name="Categories" onChange={(e) => setForm({ ...form, category: e.target.value })}>
+							<select value={form.category} name="Categories" onChange={(e) => setForm({ ...form, category: e.target.value })}>
 								<option value="" style={{ display: 'none' }} />
 								<option value="Design Flaw">Design Flaw</option>
 								<option value="Authentication">Authentication</option>
@@ -139,7 +137,7 @@ const Compose: React.FC<Props> = ({ }) => {
 								accept="image/jpeg,image/png"
 								type="file"
 								multiple={true}
-								onChange={(e) => filesToState(e)} />
+								onChange={(e) => FilesToState(e)} />
 						</td>
 					</tr>
 					{uploads.length > 0 &&
@@ -172,8 +170,8 @@ const Compose: React.FC<Props> = ({ }) => {
 							<br />
 							<button
 								className="submit-btn"
-								onClick={postOversite}
-								disabled={checkForm()}>
+								// disabled={checkForm()}
+								onClick={PostOversite}>
 								Submit
 								</button>
 						</td>
