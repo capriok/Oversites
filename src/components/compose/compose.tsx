@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, FC } from 'react'
 import { useGlobalValue } from 'state/global-context/state'
 import osApi from 'api/os'
 
@@ -22,6 +22,7 @@ const Compose: React.FC<Props> = ({ }) => {
 		severity: "No Effect",
 		description: "test test test",
 		category: "Functionality",
+		private: false,
 	})
 	const [uploads, setUploads] = useState<File[]>([])
 	const filesRef = useRef<any>(null)
@@ -29,6 +30,7 @@ const Compose: React.FC<Props> = ({ }) => {
 	async function FilesToState(e) {
 		const files: any = Array.from(e.target.files)
 
+		filesRef.current = []
 		if (e.target.files) {
 			Promise.all(files.map((file) => {
 				return new Promise((resolve, reject) => {
@@ -40,9 +42,7 @@ const Compose: React.FC<Props> = ({ }) => {
 						})
 					})
 					reader.addEventListener('error', reject)
-					filesRef.current = filesRef.current !== null
-						? [...filesRef.current, file]
-						: [file]
+					filesRef.current = [...filesRef.current, file]
 					reader.readAsDataURL(file)
 				})
 			}))
@@ -55,18 +55,28 @@ const Compose: React.FC<Props> = ({ }) => {
 	async function PostOversite() {
 		let formData = new FormData()
 
-		formData.append('id', user.id)
+		formData.append('userId', user.id)
+
 		formData.append('title', form.title)
 		formData.append('domain', form.domain)
 		formData.append('severity', form.severity)
+		formData.append('description', form.description)
 		formData.append('category', form.category)
-		formData.append('sights', filesRef.current)
+		formData.append('private', form.private.toString())
+
+		filesRef.current.forEach((file) => {
+			formData.append('Sights', file)
+		})
 
 		for (var pair of formData.entries()) {
 			console.log(pair[0] + ', ' + pair[1])
 		}
 
 		const { status, data } = await osApi.PostUserOversite(user.userId, formData)
+
+		console.log({ status });
+		console.log({ data });
+
 	}
 
 	function CheckForm() {
@@ -81,17 +91,21 @@ const Compose: React.FC<Props> = ({ }) => {
 			<h1 className="compose-title">Compose Oversight</h1>
 			<table>
 				<tbody>
-					<tr>
-						<td><p className="row-label">Title</p></td>
-						<td><input value={form.title} type="text" onChange={(e) => setForm({ ...form, title: e.target.value })} /></td>
-					</tr>
-					<tr>
-						<td><p className="row-label">Website</p></td>
-						<td><input value={form.domain} type="text" onChange={(e) => setForm({ ...form, domain: e.target.value })} /></td>
-					</tr>
-					<tr>
-						<td><p className="row-label">Severity</p></td>
-						<td>
+					<Row>
+						<RowLabel label="Title" />
+						<RowContent>
+							<input value={form.title} type="text" onChange={(e) => setForm({ ...form, title: e.target.value })} />
+						</RowContent>
+					</Row>
+					<Row>
+						<RowLabel label="Website" />
+						<RowContent>
+							<input value={form.domain} type="text" onChange={(e) => setForm({ ...form, domain: e.target.value })} />
+						</RowContent>
+					</Row>
+					<Row>
+						<RowLabel label="Severity" />
+						<RowContent>
 							<select value={form.severity} name="Severity" onChange={(e) => setForm({ ...form, severity: e.target.value })}>
 								<option value="" style={{ display: 'none' }} />
 								<option value="Critical">Critical</option>
@@ -100,21 +114,21 @@ const Compose: React.FC<Props> = ({ }) => {
 								<option value="Low">Low</option>
 								<option value="No Effect">No Effect</option>
 							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><p className="row-label">Description</p></td>
-						<td>
+						</RowContent>
+					</Row>
+					<Row>
+						<RowLabel label="Description" />
+						<RowContent>
 							<textarea
 								value={form.description}
 								rows={7}
 								placeholder="Do your best to explain the problem and include steps to recreate the problem."
 								onChange={(e) => setForm({ ...form, description: e.target.value })} />
-						</td>
-					</tr>
-					<tr>
-						<td><p className="row-label">Category</p></td>
-						<td>
+						</RowContent>
+					</Row>
+					<Row>
+						<RowLabel label="Title" />
+						<RowContent>
 							<select value={form.category} name="Categories" onChange={(e) => setForm({ ...form, category: e.target.value })}>
 								<option value="" style={{ display: 'none' }} />
 								<option value="Design Flaw">Design Flaw</option>
@@ -123,13 +137,34 @@ const Compose: React.FC<Props> = ({ }) => {
 								<option value="Compatibility">Compatibility</option>
 								<option value="Other">Other</option>
 							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p className="row-label">Screenshots</p>
-						</td>
-						<td>
+						</RowContent>
+					</Row>
+					<Row>
+						<RowLabel label="Private" />
+						<RowContent>
+							<div className="radio-cont">
+								<div className="radio-item">
+									<label htmlFor="privacyRadioTrue">Yes</label>
+									<input id="privacyRadioTrue"
+										type="radio"
+										name="privacy"
+										checked={form.private}
+										onChange={() => setForm({ ...form, private: true })} />
+								</div>
+								<div className="radio-item">
+									<label htmlFor="privacyRadioFalse">No</label>
+									<input id="privacyRadioFalse"
+										type="radio"
+										name="privacy"
+										checked={!form.private}
+										onChange={() => setForm({ ...form, private: false })} />
+								</div>
+							</div>
+						</RowContent>
+					</Row>
+					<Row>
+						<RowLabel label="Sights" />
+						<RowContent>
 							<button className="upload-btn"><label htmlFor="fileUpload">Upload Images</label></button>
 							<input
 								style={{ display: 'none' }}
@@ -138,49 +173,62 @@ const Compose: React.FC<Props> = ({ }) => {
 								type="file"
 								multiple={true}
 								onChange={(e) => FilesToState(e)} />
-						</td>
-					</tr>
+						</RowContent>
+					</Row>
 					{uploads.length > 0 &&
-						<tr>
-							<td><p className="row-label">Previews:</p></td>
-							<td>
+						<Row>
+							<RowLabel label="Previews" />
+							<RowContent>
 								<div className="preview-map">
 									{uploads.map((file, i) => (
-										<div key={i}>
-											<div className="preview-head">
+										<div key={i} className="preview-cont">
+											<div className="img-cont">
+												<img key={i} className="preview-img" src={file.data} alt="" />
+											</div>
+											<div className="preview-foot">
 												<p className="preview-name">{file.name}</p>
 												<p className="preview-close">
 													<button onClick={() => {
-														setUploads(uploads.filter((u) => u !== file))
+														filesRef.current = filesRef.current.filter((f) => f.name !== file.name)
+														setUploads(uploads.filter((u) => u.name !== file.name))
 													}}>
 														Delete
 													</button>
 												</p>
 											</div>
-											<img key={i} className="preview-img" src={file.data} alt="" />
 										</div>
 									))}
 								</div>
-							</td>
-						</tr>
+							</RowContent>
+						</Row>
 					}
-					<tr>
-						<td></td>
-						<td>
-							<br />
+					<Row>
+						<RowLabel></RowLabel>
+						<RowContent>
 							<button
 								className="submit-btn"
 								// disabled={checkForm()}
 								onClick={PostOversite}>
 								Submit
 								</button>
-						</td>
-					</tr>
+						</RowContent>
+					</Row>
 				</tbody>
 			</table>
-			<br />
-		</div>
+		</div >
 	)
 }
 
 export default Compose
+
+const Row = ({ children }) => (
+	<tr>{children}</tr>
+)
+
+const RowLabel: FC<{ label?: any }> = ({ label }) => (
+	<td><p className="row-label">{label}</p></td>
+)
+
+const RowContent = ({ children }) => (
+	<td>{children}</td>
+)

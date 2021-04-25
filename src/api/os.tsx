@@ -2,19 +2,30 @@ import axios from 'axios'
 
 const Log = (msg) => console.log(`%c${msg}`, 'color: crimson; font-weight: bold;');
 
-const AxiosInstance = axios.create({
+const baseInstanceParams = {
 	baseURL: process.env.REACT_APP_ENDPOINT,
 	withCredentials: true,
+	timeout: 5000
+}
+
+const AxiosGeneralInstance = axios.create({
+	...baseInstanceParams,
 	headers: {
 		'Content-Type': 'application/json'
 	},
-	timeout: 5000
+})
+
+const AxiosFormInstance = axios.create({
+	...baseInstanceParams,
+	headers: {
+		'Content-Type': "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2)
+	},
 })
 
 class osApi {
 
 	private async AuthRequest(path: string, data: { username: string; password: string }) {
-		const res = await AxiosInstance.post(path, data)
+		const res = await AxiosGeneralInstance.post(path, data)
 
 		return {
 			status: res.status,
@@ -38,7 +49,7 @@ class osApi {
 
 		let response: { status: number, user: Partial<UserDTO> } = { status: 401, user: {} }
 
-		await AxiosInstance.get('/authentication')
+		await AxiosGeneralInstance.get('/authentication')
 			.then(res => response = {
 				status: res.status,
 				user: res.data
@@ -71,7 +82,7 @@ class osApi {
 
 		Log('Fetching Recently Founded Oversites')
 
-		const res = await AxiosInstance.get(
+		const res = await AxiosGeneralInstance.get(
 			'/recent-oversites'
 		)
 
@@ -92,7 +103,7 @@ class osApi {
 
 		Log('Fetching SearchResult Oversites')
 
-		const res = await AxiosInstance.post(
+		const res = await AxiosGeneralInstance.post(
 			'/searchresult-oversites',
 			{ SearchResult: searchResult }
 		)
@@ -114,10 +125,9 @@ class osApi {
 
 		Log('Posting User Oversite')
 
-		const res = await AxiosInstance.post(
+		const res = await AxiosFormInstance.post(
 			'oversite',
 			formData,
-			{ headers: { 'Content-Type': 'multipart/form-data' } }
 		)
 
 		if (res.status === 401) {
