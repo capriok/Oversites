@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import osApi from '../../api/os'
+import OsApi from 'api/os-api'
 
 import 'styles/search/search-result.scss'
 import { useGlobalValue } from 'state/global-context/state'
-import OversiteList from '../oversite/oversite-list'
+import OversiteList from './oversite-list'
 
 interface Props {
 	searchResult: string
@@ -23,7 +23,7 @@ const SearchResult: React.FC<Props> = ({
 
 	useEffect(() => {
 		(async () => {
-			const { oversites: fetchedOversites } = await osApi.FetchSearchResultOversites(user.id, searchResult)
+			const { oversites: fetchedOversites } = await OsApi.FetchSearchResultOversites(user.id, searchResult)
 			console.log({ Oversites: fetchedOversites })
 
 			setSearchResultOversites(fetchedOversites)

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import 'styles/auth/auth-form.scss'
 
-import LOGO_BLACK from '../../assets/logo_black.png'
+import LOGO_BLACK from 'assets/logo_black.png'
 
 import Loader from '../common/loader'
 import FormRequirements from './form/requirements'

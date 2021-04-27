@@ -1,6 +1,6 @@
 import React from 'react'
 import { useGlobalValue } from 'state/global-context/state'
-import { Link, RouteComponentProps } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Nav from '../common/navbar'
 
 import 'styles/root/home-nav.scss'
@@ -23,7 +23,7 @@ const HomeNav: React.FC<Props> = ({ }) => {
 				{isAuth
 					? <>
 						<section><Link to="/search">Search</Link></section>
-						<section><Link to="/compose">New Oversite</Link></section>
+						<section><Link to="/oversite/create">New Oversite</Link></section>
 						<section><Link to="" onClick={() => dispatch({ type: "REVOKE_AUTH" })}>Logout</Link></section>
 					</>
 					: <>

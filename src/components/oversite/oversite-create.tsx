@@ -1,8 +1,9 @@
-import React, { useState, useRef, FC } from 'react'
+import React, { useState, useRef } from 'react'
 import { useGlobalValue } from 'state/global-context/state'
-import osApi from 'api/os'
+import OsApi from 'api/os-api'
 
-import 'styles/compose/compose.scss'
+import 'styles/oversite/oversite-create.scss'
+import 'styles/common/route-title.scss'
 
 interface Props {
 
@@ -10,14 +11,16 @@ interface Props {
 
 interface File {
 	name: string
+	type: string
+	size: string
 	data: string
 }
 
-const Compose: React.FC<Props> = ({ }) => {
+const OversiteCreate: React.FC<Props> = ({ }) => {
 	const [{ user }] = useGlobalValue()
 
 	const [form, setForm] = useState({
-		title: "new os 1",
+		title: "created os 1",
 		domain: "local.host",
 		severity: "No Effect",
 		description: "test test test",
@@ -25,7 +28,7 @@ const Compose: React.FC<Props> = ({ }) => {
 		private: false,
 	})
 	const [uploads, setUploads] = useState<File[]>([])
-	const filesRef = useRef<any>(null)
+	const filesRef = useRef<any>([])
 
 	async function FilesToState(e) {
 		const files: any = Array.from(e.target.files)
@@ -36,11 +39,25 @@ const Compose: React.FC<Props> = ({ }) => {
 				return new Promise((resolve, reject) => {
 					let reader = new FileReader()
 					reader.addEventListener('load', ({ target }) => {
-						resolve({
-							name: file.name,
-							data: target?.result
-						})
+
+						let fileType = file.type.replace('image/', '')
+						let fileName = file.name.replace('.jpg', '')
+						let fileSize = file.size < 1000000
+							? (file.size / 1000).toFixed(2) + ' kb'
+							: (file.size / 1000000).toFixed(2) + ' mb'
+						let fileResult = target?.result
+
+						const result = {
+							name: fileName,
+							type: fileType,
+							size: fileSize,
+							data: fileResult
+						}
+						console.log(result);
+
+						resolve(result)
 					})
+
 					reader.addEventListener('error', reject)
 					filesRef.current = [...filesRef.current, file]
 					reader.readAsDataURL(file)
@@ -72,10 +89,8 @@ const Compose: React.FC<Props> = ({ }) => {
 			console.log(pair[0] + ', ' + pair[1])
 		}
 
-		const { status, data } = await osApi.PostUserOversite(user.userId, formData)
-
+		const { status } = await OsApi.PostUserOversite(user.userId, formData)
 		console.log({ status });
-		console.log({ data });
 
 	}
 
@@ -87,8 +102,8 @@ const Compose: React.FC<Props> = ({ }) => {
 	}
 
 	return (
-		<div className="compose">
-			<h1 className="compose-title">Compose Oversight</h1>
+		<div className="oversite-create">
+			<h1 className="route-title">Create Oversight</h1>
 			<table>
 				<tbody>
 					<Row>
@@ -127,7 +142,7 @@ const Compose: React.FC<Props> = ({ }) => {
 						</RowContent>
 					</Row>
 					<Row>
-						<RowLabel label="Title" />
+						<RowLabel label="Category" />
 						<RowContent>
 							<select value={form.category} name="Categories" onChange={(e) => setForm({ ...form, category: e.target.value })}>
 								<option value="" style={{ display: 'none' }} />
@@ -179,22 +194,28 @@ const Compose: React.FC<Props> = ({ }) => {
 						<Row>
 							<RowLabel label="Previews" />
 							<RowContent>
-								<div className="preview-map">
+								<div className="sight-previews">
 									{uploads.map((file, i) => (
 										<div key={i} className="preview-cont">
 											<div className="img-cont">
 												<img key={i} className="preview-img" src={file.data} alt="" />
 											</div>
-											<div className="preview-foot">
-												<p className="preview-name">{file.name}</p>
-												<p className="preview-close">
-													<button onClick={() => {
-														filesRef.current = filesRef.current.filter((f) => f.name !== file.name)
-														setUploads(uploads.filter((u) => u.name !== file.name))
-													}}>
-														Delete
+											<div className="info-cont">
+												<div className="info-head">
+													<p><label className="info-label">Type: </label>{file.type}</p>
+													<p>
+														<button onClick={() => {
+															filesRef.current = filesRef.current.filter((f) => f.name !== file.name)
+															setUploads(uploads.filter((u) => u.name !== file.name))
+														}}>
+															Delete
 													</button>
-												</p>
+													</p>
+												</div>
+												<div className="info-body">
+													<p><label className="info-label">Name: </label>{file.name}</p>
+													<p><label className="info-label">Size: </label>{file.size}</p>
+												</div>
 											</div>
 										</div>
 									))}
@@ -219,13 +240,13 @@ const Compose: React.FC<Props> = ({ }) => {
 	)
 }
 
-export default Compose
+export default OversiteCreate
 
 const Row = ({ children }) => (
 	<tr>{children}</tr>
 )
 
-const RowLabel: FC<{ label?: any }> = ({ label }) => (
+const RowLabel: React.FC<{ label?: any }> = ({ label }) => (
 	<td><p className="row-label">{label}</p></td>
 )
 

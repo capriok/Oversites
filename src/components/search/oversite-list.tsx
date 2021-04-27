@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import Loader from 'components/common/loader'
 
-import 'styles/oversite/oversite-list.scss'
+import 'styles/search/oversite-list.scss'
 import OversiteItem from './oversite-item'
 
 interface Props {
@@ -22,7 +22,7 @@ const OversiteList: React.FC<Props> = ({ loading, oversites }) => {
 						? oversites.map((os, i) => (
 							<OversiteItem
 								key={i}
-								i={i}
+								index={i}
 								oversite={os}
 								seeingIndex={seeingIndex}
 								seeMore={seeMore} />

@@ -27,9 +27,9 @@
 		user-select: none;
 		font-weight: bold;
 		@include flex;
-		border-radius: 10px;
 		flex: 1;
 		height: 100%;
+		border-radius: 10px;
 		background-color: rgba(141, 141, 141, 0.15);
 		transition: 0.2s;
 		&:first-child {

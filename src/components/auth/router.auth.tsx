@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react'
-import { RouteComponentProps, Route, Redirect, } from 'react-router-dom'
+import { RouteComponentProps, Route, Redirect } from 'react-router-dom'
 import { useGlobalValue } from 'state/global-context/state'
 import { authFormReducer } from 'state/authentication-reducer/reducer'
 import { authFormState } from 'state/authentication-reducer/state'
@@ -12,7 +12,7 @@ interface Props {
 	props: RouteComponentProps
 }
 
-const Authentication: React.FC<Props> = ({ props }) => {
+const AuthRouter: React.FC<Props> = ({ props }) => {
 	const [{ user: { isAuth } }] = useGlobalValue()
 
 	const [state, dispatch] = useReducer(authFormReducer, authFormState)
@@ -27,18 +27,18 @@ const Authentication: React.FC<Props> = ({ props }) => {
 	if (!isAtLogin && !isAtRegister) return <></>
 
 	return (
-		<>
-			<div className="credentials">
-				<AuthNav props={props} />
-				{!isAuth
-					? <Route exact path="/login" render={() => <Login form={{ state, dispatch }} />} />
-					: <Redirect to="/" />}
-				{!isAuth
-					? <Route exact path="/register" render={() => <Register form={{ state, dispatch }} />} />
-					: <Redirect to="/" />}
-			</div>
-		</>
+		<div className="credentials">
+			<AuthNav props={props} />
+			{!isAuth
+				? <Route exact path="/login" render={() => <Login form={{ state, dispatch }} />} />
+				: <Redirect to="/" />
+			}
+			{!isAuth
+				? <Route exact path="/register" render={() => <Register form={{ state, dispatch }} />} />
+				: <Redirect to="/" />
+			}
+		</div>
 	)
 }
 
-export default Authentication
+export default AuthRouter

@@ -1,5 +1,5 @@
 import { globalState as initialState } from './global'
-import osApi from '../../api/os'
+import authApi from 'api/auth-api'
 
 export function globalReducer(state: GlobalState, action: GlobalReducer): GlobalState {
 	switch (action.type) {
@@ -19,7 +19,7 @@ export function globalReducer(state: GlobalState, action: GlobalReducer): Global
 				}
 			}
 		case "REVOKE_AUTH":
-			osApi.RevokeToken(state.user.id)
+			authApi.RevokeToken(state.user.id)
 			return {
 				...initialState
 			}

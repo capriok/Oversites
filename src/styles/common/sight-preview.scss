@@ -1,0 +1,71 @@
+@import "styles/root/index.scss";
+
+.sight-preview {
+	display: flex;
+	overflow-x: scroll;
+	min-height: 400px;
+	.preview-cont {
+		@include flex;
+		justify-content: space-between;
+		flex-direction: column;
+		width: 100%;
+		padding: 10px;
+		max-width: 350px;
+		min-width: 350px;
+		min-height: 400px;
+		max-height: 400px;
+		margin: 25px;
+		margin-top: 10px;
+		border-radius: 10px;
+		box-shadow: $shadow-light;
+
+		.img-cont {
+			@include flex;
+			overflow: hidden;
+			width: 100%;
+			.preview-img {
+				max-width: 100%;
+				height: 100%;
+				&:not(:last-child) {
+					padding-bottom: 20px;
+					border-bottom: 2px solid $light-grey;
+				}
+			}
+		}
+		.info-cont {
+			flex: 1;
+			@include flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			width: 100%;
+			height: 110px;
+			max-height: 110px;
+			margin-top: 10px;
+			padding-top: 10px;
+			border-top: 2px solid $primary;
+
+			.info-head {
+				* {
+					margin: 0;
+				}
+				@include flex;
+				justify-content: space-between;
+				width: 100%;
+			}
+			.info-body {
+				width: 100%;
+				p {
+					margin: 0;
+					margin-bottom: 5px;
+					overflow: hidden;
+					max-width: 300px;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+				}
+			}
+			.info-label {
+				font-weight: bold;
+			}
+		}
+	}
+}

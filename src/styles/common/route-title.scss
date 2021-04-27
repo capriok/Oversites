@@ -1,0 +1,9 @@
+@import "styles/root/index.scss";
+
+.route-title {
+	cursor: default;
+	width: 100%;
+	text-align: center;
+	padding-bottom: 40px;
+	border-bottom: 2px solid $plight;
+}

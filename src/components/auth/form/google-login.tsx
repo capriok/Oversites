@@ -1,7 +1,7 @@
 import React from 'react'
 import GoogleLogin from 'react-google-login'
 
-import G_ICON from '../../../assets/google_icon.png'
+import G_ICON from 'assets/google_icon.png'
 
 interface Props {
 

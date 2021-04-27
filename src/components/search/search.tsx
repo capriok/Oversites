@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { uniq } from 'lodash'
-import osApi from '../../api/os'
+import OsApi from 'api/os-api'
 
 import 'styles/search/search.scss'
+import 'styles/common/route-title.scss'
 
 import websites from 'assets/data/websites.json'
 import SearchForm from 'components/search/search-form'
 import SearchResult from 'components/search/search-result'
 import { useGlobalValue } from 'state/global-context/state'
-import OversiteList from '../oversite/oversite-list'
+import OversiteList from './oversite-list'
 
 interface Props {
 }
@@ -37,7 +38,7 @@ const Search: React.FC<Props> = () => {
 	}
 
 	async function FetchRecentOversites() {
-		const { oversites } = await osApi.FetchRecentlyFoundedOversites(id)
+		const { oversites } = await OsApi.FetchRecentlyFoundedOversites(id)
 		console.log({ Oversites: oversites });
 
 		oversites.sort((a, b) => {
@@ -63,7 +64,7 @@ const Search: React.FC<Props> = () => {
 
 	return (
 		<div className="search">
-			<h1>Search for Oversights</h1>
+			<h1 className="route-title">Search for Oversights</h1>
 			<SearchForm
 				websiteList={websiteList}
 				setSearchResult={setSearchResult}

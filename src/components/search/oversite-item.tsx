@@ -1,20 +1,19 @@
 import React, { useRef } from 'react'
-
 import useOutsideClick from 'hooks/useOutsideClick'
 
-import 'styles/oversite/oversite-item.scss'
+import 'styles/search/oversite-item.scss'
 import OversiteScreen from './oversite-screen'
 
 interface Props {
-	i: number
+	index: number
 	oversite: Oversite
 	seeingIndex: number
 	seeMore: React.Dispatch<number>
 }
 
-const OversiteItem: React.FC<Props> = ({ i, oversite, seeingIndex, seeMore }) => {
-	const isSeeingThisOversite = seeingIndex === i
-	const seeingActiveNotThis = seeingIndex !== -1 && seeingIndex !== i
+const OversiteItem: React.FC<Props> = ({ index, oversite, seeingIndex, seeMore }) => {
+	const isSeeingThisOversite = seeingIndex === index
+	const seeingActiveNotThis = seeingIndex !== -1 && seeingIndex !== index
 
 	const ref: any = useRef()
 	useOutsideClick(ref, () => {
@@ -22,27 +21,9 @@ const OversiteItem: React.FC<Props> = ({ i, oversite, seeingIndex, seeMore }) =>
 		if (isSeeingThisOversite) return seeMore(-1)
 	})
 
-	// function bufferToBase64(buffer: object | any) {
-	// 	return btoa(
-	// 		buffer.data.reduce((data, byte) => data + String.fromCharCode(byte), '')
-	// 	)
-
-	// 	{oversite.sights.length > 0
-	// 		? oversite.sights.map(({ data: buffer }, i) => (
-	// 			<span key={i}>image</span>
-	// 			// <img
-	// 			// 	alt=""
-	// 			// 	key={i}
-	// 			// 	style={{ width: '500px', margin: '0 auto' }}
-	// 			// 	src={'data:image/jpg;base64,' + bufferToBase64(buffer)} />
-	// 		))
-	// 		: <p>No Images.</p>
-	// 	}
-	// }
-
 	return (
 		<div
-			key={i}
+			key={index}
 			ref={ref}
 			className={`oversite-item ${seeingActiveNotThis ? 'fade' : ''}`}>
 
@@ -57,7 +38,7 @@ const OversiteItem: React.FC<Props> = ({ i, oversite, seeingIndex, seeMore }) =>
 				<p><label>Domain: </label>{oversite.domain.charAt(0).toUpperCase() + oversite.domain.slice(1)}</p>
 				<div>
 					<button
-						onClick={() => seeMore(isSeeingThisOversite ? -1 : i)}
+						onClick={() => seeMore(isSeeingThisOversite ? -1 : index)}
 						disabled={seeingActiveNotThis}>
 						{!isSeeingThisOversite ? 'See more' : 'See less'}
 					</button>

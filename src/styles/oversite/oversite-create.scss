@@ -1,17 +1,11 @@
 @import "styles/root/index.scss";
 
-.compose {
+.oversite-create {
 	@include flex;
 	flex-direction: column;
 	width: 100%;
 	max-width: 1000px;
 	margin: 0 auto;
-	.compose-title {
-		width: 100%;
-		text-align: center;
-		padding-bottom: 40px;
-		border-bottom: 2px solid $plight;
-	}
 	table {
 		@include flex;
 		flex-direction: column;
@@ -39,10 +33,11 @@
 					select,
 					textarea,
 					.upload-btn,
+					.sight-previews,
 					.submit-btn {
 						user-select: none;
-						max-width: 400px;
 						min-width: 400px;
+						max-width: 400px;
 					}
 					.radio-cont {
 						@include flex;
@@ -74,38 +69,72 @@
 							height: 100%;
 						}
 					}
-					.preview-map {
+					.sight-previews {
 						display: flex;
 						overflow-x: scroll;
-						min-width: 400px;
-						max-width: 400px;
 						min-height: 400px;
 						.preview-cont {
 							@include flex;
 							justify-content: space-between;
 							flex-direction: column;
 							width: 100%;
-							margin-right: 25px;
-							min-width: 300px;
+							padding: 10px;
+							max-width: 350px;
+							min-width: 350px;
 							min-height: 400px;
+							max-height: 400px;
+							margin: 25px;
+							margin-top: 10px;
+							border-radius: 10px;
+							box-shadow: $shadow-light;
+
 							.img-cont {
+								@include flex;
+								overflow: hidden;
+								width: 100%;
 								.preview-img {
-									width: 100%;
-									min-height: 100%;
+									max-width: 100%;
+									height: 100%;
 									&:not(:last-child) {
 										padding-bottom: 20px;
-										margin-bottom: 20px;
 										border-bottom: 2px solid $light-grey;
 									}
 								}
 							}
-							.preview-foot {
+							.info-cont {
 								flex: 1;
-								align-self: flex-end;
 								@include flex;
-								justify-content: space-between;
+								flex-direction: column;
+								justify-content: flex-end;
 								width: 100%;
-								max-height: 50px;
+								height: 110px;
+								max-height: 110px;
+								margin-top: 10px;
+								padding-top: 10px;
+								border-top: 2px solid $primary;
+
+								.info-head {
+									* {
+										margin: 0;
+									}
+									@include flex;
+									justify-content: space-between;
+									width: 100%;
+								}
+								.info-body {
+									width: 100%;
+									p {
+										margin: 0;
+										margin-bottom: 5px;
+										overflow: hidden;
+										max-width: 300px;
+										white-space: nowrap;
+										text-overflow: ellipsis;
+									}
+								}
+								.info-label {
+									font-weight: bold;
+								}
 							}
 						}
 					}

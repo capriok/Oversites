@@ -6,7 +6,8 @@ interface OversiteDTO {
 	description: string
 	category: string
 	private: boolean
-	sights: Sight[]
+	sights?: Sight[]
+	founder?: string
 	userId: number
 }
 
@@ -20,6 +21,7 @@ interface Oversite {
 }
 
 interface OversiteDetails {
+	founder?: string
 	description: string
 	category: string
 	sights: Sight[]

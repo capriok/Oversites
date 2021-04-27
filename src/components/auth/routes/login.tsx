@@ -1,6 +1,6 @@
 import React from 'react'
 import { useGlobalValue } from 'state/global-context/state'
-import osApi from '../../../api/os'
+import AuthApi from 'api/auth-api'
 import AuthForm from '../auth-form'
 
 interface Props {
@@ -14,7 +14,7 @@ const Login: React.FC<Props> = ({ form }) => {
 	const [, globalDispatch] = useGlobalValue()
 
 	async function submit(): Promise<void> {
-		const { status, user } = await osApi.Login(form.state.username, form.state.password)
+		const { status, user } = await AuthApi.Login(form.state.username, form.state.password)
 
 		if (status == 401) // Not Found
 			return form.dispatch({ type: 'NOT_FOUND' })

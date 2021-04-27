@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { useGlobalValue } from '../state/global-context/state'
-import osApi from '../api/os'
+import { useGlobalValue } from 'state/global-context/state'
+import OsApi from 'api/os-api'
 
 function useAuthStatus() {
 	const [{ user: globalStateUser }, globalDispatch] = useGlobalValue()
@@ -24,7 +24,7 @@ function useAuthStatus() {
 		}
 
 		(async () => {
-			const res = await osApi.RefreshToken(globalStateUser.id)
+			const res = await OsApi.RefreshToken(globalStateUser.id)
 			const { status, user } = res
 
 			if (status !== 200) {

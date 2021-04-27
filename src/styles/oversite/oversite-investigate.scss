@@ -1,0 +1,81 @@
+@import "styles/root/index.scss";
+
+.oversite-investigate {
+	@include flex;
+	flex-direction: column;
+	margin: 0 auto;
+	width: 100%;
+	max-width: 1000px;
+	.investigate-grid {
+		width: 100%;
+		display: grid;
+		grid-template-areas:
+			"title 				title 				domain 				domain"
+			"founder 			founder 			private 			private"
+			"category			category 			severity 			severity"
+			"description 	description 	description 	description"
+			"sights 			sights 				sightOptions 	sightOptions";
+		padding: 20px;
+
+		* {
+			text-align: left;
+		}
+		.gi {
+			position: relative;
+			text-align: center;
+			padding: 10px;
+			padding-top: 20px;
+			margin: 7px 5px;
+			border-radius: 10px;
+		}
+		.gi-label {
+			position: absolute;
+			font-weight: bold;
+			top: 10px;
+			left: 10px;
+		}
+		.title {
+			grid-area: title;
+		}
+		.domain {
+			grid-area: domain;
+		}
+		.founder {
+			grid-area: founder;
+		}
+		.private {
+			grid-area: private;
+		}
+		.severity {
+			grid-area: severity;
+		}
+		.description {
+			grid-area: description;
+		}
+		.category {
+			grid-area: category;
+		}
+		.sights {
+			grid-area: sights;
+
+			display: flex;
+			overflow-x: scroll;
+			.sight-cont {
+				&:not(:last-child) {
+					margin-right: 25px;
+				}
+				.sight {
+					max-width: 250px;
+				}
+			}
+		}
+		.sightOptions {
+			grid-area: sightOptions;
+
+			min-width: 250px;
+		}
+		.gi-pop {
+			box-shadow: $shadow-light;
+		}
+	}
+}

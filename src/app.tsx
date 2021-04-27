@@ -8,9 +8,9 @@ import Landing from 'components/root/landing'
 
 import "styles/root/app.scss"
 
-import Compose from 'components/compose/compose'
 import Search from 'components/search/search'
-import Authentication from 'components/auth/authentication'
+import OversiteRouter from 'components/oversite/router.oversite'
+import AuthRouter from 'components/auth/router.auth'
 import useAuthStatus from 'hooks/useAuthStatus'
 import Loader from 'components/common/loader'
 
@@ -18,17 +18,18 @@ const App: React.FC = () => {
   const [{ user, user: isAuth }] = useGlobalValue()
   const { loading } = useAuthStatus()
 
-  const ProtectedRoute = ({ path, component: Component }) => (
-    <>
-      {
-        isAuth
-          ? <Route exact path={path} render={(props) => <Component props={props} />} />
-          : window.location.pathname === path
-            ? <Redirect to="/login" />
-            : <Redirect to={window.location.pathname} />
-      }
-    </>
-  )
+  const ProtectedRoute: React.FC<{ exact?: boolean; path: string; component: any }> =
+    ({ exact = false, path, component: Component }) => (
+      <>
+        {
+          isAuth
+            ? <Route exact={exact} path={path} render={(props) => <Component props={props} />} />
+            : window.location.pathname === path
+              ? <Redirect to="/login" />
+              : <Redirect to={window.location.pathname} />
+        }
+      </>
+    )
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -38,7 +39,7 @@ const App: React.FC = () => {
 
   if (loading) return (
     <Layout>
-      <div style={{ position: 'absolute', top: '50vh', left: '50vw' }}><Loader /></div>
+      <Loader centered />
     </Layout>
   )
 
@@ -52,13 +53,13 @@ const App: React.FC = () => {
           <Route exact path='/' render={() => (
             <Landing />
           )} />
-          <Route exact path='/search' render={() => (
+          <Route path='/' render={(props) => (
+            <AuthRouter props={props} />
+          )} />
+          <Route path='/search' render={() => (
             <Search />
           )} />
-          <ProtectedRoute path="/compose" component={Compose} />
-          <Route path='/' render={(props) => (
-            <Authentication props={props} />
-          )} />
+          <ProtectedRoute path="/oversite" component={OversiteRouter} />
         </Layout>
       </Switch>
     </Router>
@@ -66,6 +67,3 @@ const App: React.FC = () => {
 }
 
 export default App
-
-
-

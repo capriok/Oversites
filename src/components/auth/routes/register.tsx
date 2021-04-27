@@ -1,5 +1,5 @@
 import React from 'react'
-import osApi from '../../../api/os'
+import AuthApi from '../../../api/auth-api'
 
 import AuthForm from '../auth-form'
 
@@ -12,7 +12,7 @@ interface Props {
 
 const Register: React.FC<Props> = ({ form }) => {
 	async function submit(): Promise<void> {
-		const { status } = await osApi.Register(form.state.username, form.state.password)
+		const { status } = await AuthApi.Register(form.state.username, form.state.password)
 
 		if (status == 409) // Unathorized
 			return form.dispatch({ type: 'NAME_CONFLICT' })
