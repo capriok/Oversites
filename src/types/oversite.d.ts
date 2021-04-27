@@ -6,7 +6,7 @@ interface OversiteDTO {
 	description: string
 	category: string
 	private: boolean
-	sights?: Sight[]
+	sights: Sight[]
 	founder?: string
 	userId: number
 }
