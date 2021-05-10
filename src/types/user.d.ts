@@ -1,4 +1,3 @@
-
 interface UserDTO {
 	id: number | null
 	lastLogin: string
