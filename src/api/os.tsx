@@ -5,7 +5,7 @@ const Log = (msg: string, data: any = '') => console.log(`%c${msg}`, 'color: cri
 const baseInstanceParams = {
 	baseURL: process.env.REACT_APP_ENDPOINT,
 	withCredentials: true,
-	// timeout: 5000
+	timeout: 5000
 }
 
 const AxiosGeneralInstance = axios.create({
