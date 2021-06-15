@@ -33,6 +33,7 @@ interface Sight {
 	oversiteId: number
 }
 
+
 interface BufferObject {
 	data: Array
 	type: string
