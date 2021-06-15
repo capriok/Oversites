@@ -15,12 +15,10 @@ const Landing: React.FC<Props> = () => {
 			<div className="head-cont">
 				<div className="hook">
 					<h1>Welcome</h1>
-					<p>List the notables.</p>
-					<p>This is the hook and should tell a little about the service.</p>
-					<p>Continue with question and answer, rhetorical quetion instant answer</p>
-					<p>Show why the service has a desired use and bait the user into trying the
-						service out by clicking the following button on the page.</p>
-					<button>Get Started Now!</button>
+					<p>Stay up to date on development oversights.</p>
+					<p>Think of the time you can save finding bugs?</p>
+					<p>Stay focused on the development process by delegating otherwise in house work loads to the best application testers and critiquers there are, the users.</p>
+					<button><a href="/login">Get Started Now!</a></button>
 				</div>
 				<img className="lure" src={OS_LANDING} alt="" />
 			</div>

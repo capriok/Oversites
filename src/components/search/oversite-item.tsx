@@ -48,7 +48,7 @@ const OversiteItem: React.FC<Props> = ({ index, oversite, seeingIndex, seeMore }
 			{isSeeingThisOversite && <>
 				<div className="item-more-body">
 					<p><label>Private: </label>{oversite.private ? 'Yes' : 'No'}</p>
-					<p>oversite.founder</p>
+					<p>{oversite.details.founder}</p>
 				</div>
 				<OversiteScreen oversite={oversite} />
 			</>}

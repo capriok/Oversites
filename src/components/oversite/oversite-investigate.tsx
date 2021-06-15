@@ -63,7 +63,7 @@ const OversiteInvestigate: React.FC<Props> = ({ id }) => {
 					<p><label className="gi-label">Founder: </label>{oversite.details.founder}</p>
 				</div>
 				<div className="gi private">
-					<p><label className="gi-label">Private: </label>{oversite.private}</p>
+					<p><label className="gi-label">Private: </label>{oversite.private.toString()}</p>
 				</div>
 				<div className="gi severity">
 					<p><label className="gi-label">Severity: </label>{oversite.severity}</p>
